@@ -10,5 +10,6 @@
 
     <dimen name="menu_icon_margin_left">0sp</dimen>
     <dimen name="menu_bar_text">12sp</dimen>
+    <dimen name="main_menu_button_m_top">25dp</dimen>
 
 </resources>
