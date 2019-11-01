@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/record_image"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="-10dp"
+            android:src="#FFFFFF" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/backButton"
+            android:elevation="5dp">
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:src="@drawable/ic_arrow_left"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Ganteng Maksimal"
+            android:layout_marginLeft="0dp"
+            android:textColor="#000000"
+            android:fontFamily="@font/productsansbold"
+            android:textSize="20sp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/record_id"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/record_detail_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DETAIL "
+            android:textSize="14dp"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Lorem ipsum dolor sit amet consecteur del luna Lorem ipsum dolor sit amet consecteur del luna"
+            android:lineSpacingExtra="7sp"
+            android:justificationMode="inter_word"
+            android:layout_marginLeft="80dp"
+            android:id="@+id/record_detail"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

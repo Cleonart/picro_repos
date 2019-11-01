@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "300362505912",
+    "firebase_url": "https://picro-85b12.firebaseio.com",
+    "project_id": "picro-85b12",
+    "storage_bucket": "picro-85b12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300362505912:android:7127a618e87c9321d09e4d",
+        "android_client_info": {
+          "package_name": "com.example.picro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300362505912-plbn14ghl5i357t1hvmh55qtab5gnhkq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.picro",
+            "certificate_hash": "55d2d195b5990662fc4e40507533e3220a87aed5"
+          }
+        },
+        {
+          "client_id": "300362505912-mubunk4b48qcs1vbtd5fcdo0lumb0anc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTFxjMWMEYxRY7nPFrDZiRijOafwgN5uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300362505912-mubunk4b48qcs1vbtd5fcdo0lumb0anc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Picro</string>
+    <string name="record_id">Id of the record</string>
+    <string name="record_detail">Detail of record</string>
+
+    <string name="desc_logo">Logo Resmi PICRO</string>
+    <string name="picropay">picropay</string>
+
+    <!-- STRING UNTUK activity_pay -->
+    <string name="heading">Bayar Picro</string>
+    <string name="sub_heading">Gunakan PICA (Picro Identification Card) anda untuk membayar</string>
+    <string name="ap_legend_start">Scan PICA anda di alat scanner dalam Mikrolet</string>
+    <string name="ap_legend_end">PICA tidak bisa digunakan karena sedang dinonaktifkan</string>
+    <string name="ap_button_start">AKTIFKAN PICA</string>
+    <string name="ap_button_end">NONAKTIFKAN PICA</string>
+
+</resources>

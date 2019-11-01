@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- INPUT TEXT LABEL -->
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="MASUKAN NOMINAL"
+        android:textSize="12sp"
+        app:fontFamily="@font/productsansbold"
+        android:layout_margin="20dp"/>
+
+    <!-- INPUT FIELD -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rp0"
+        android:textSize="30sp"
+        android:paddingBottom="20dp"
+        android:fontFamily="@font/productsansbold"
+        android:layout_marginTop="-5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/label"/>
+
+    <!-- PROCEED BUTTON -->
+    <Button
+        android:id="@+id/proceed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LANJUTKAN"
+        android:height="55sp"
+        app:fontFamily="@font/productsansbold"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
