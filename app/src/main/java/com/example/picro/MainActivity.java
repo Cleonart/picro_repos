@@ -27,10 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setActionBarTitle("Picro | List");
         disableActionBar();
 
-        // IMAGE VIEW
-        ImageView rvAbout = findViewById(R.id.about_button);
-        rvAbout.setOnClickListener(this);
-
         // CIRCLE IMAGE VIEW
         CircleImageView profile = findViewById(R.id.profile_photo);
         profile.setOnClickListener(this);
@@ -97,11 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int selector = view.getId();
 
-        if(selector == R.id.about_button){
-            intentSettings = new Intent(MainActivity.this, ActivityAbout.class);
-        }
-
-        else if(selector == R.id.profile_photo){
+        if(selector == R.id.profile_photo){
             intentSettings = new Intent(MainActivity.this, ActivityAbout.class);
         }
 
