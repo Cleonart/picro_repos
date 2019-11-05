@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,42 +9,67 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:paddingBottom="20dp">
+
+        <!-- TOP BORDER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginBottom="-10dp"
+            android:background="@color/colorPrimary"
+            />
 
         <!-- HEADING -->
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="25dp">
+
+            <!-- CIRCLE IMAGE -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/jtn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
+                />
 
             <TextView
+                android:id="@+id/greet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Halo, Cleonart"
                 android:textSize="25sp"
                 android:textColor="#000000"
-                android:layout_margin="20dp"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:fontFamily="@font/productsansbold"/>
 
-            <!-- CIRCLE IMAGE -->
-            <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_photo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/jtn"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_centerVertical="true"
-                    />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kelola PICA anda disini"
+                android:fontFamily="@font/productsans"
+                android:textSize="13sp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/greet"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="#000000"/>
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- MENU TOP -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +83,8 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingTop="25dp"
+                android:elevation="10dp"
+                android:clipToPadding="false"
                 android:paddingBottom="25dp">
 
             <!-- PICRO PAY LOGO -->
@@ -101,11 +129,11 @@
                     android:layout_height="match_parent"
                     android:text="Saldo anda"
                     android:textColor="@color/white"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/productsansbold"/>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rp. 10.000"
                     android:textSize="24sp"
@@ -119,7 +147,7 @@
             <LinearLayout
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="0.3dp"
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/funds"/>
@@ -248,6 +276,40 @@
                     android:textColor="#FFFFFF"/>
 
             </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_menu_green"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/logo_shield"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_shield_alt"/>
+
+            <TextView
+                app:layout_constraintLeft_toRightOf="@+id/logo_shield"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/productsansbold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:text="Cash Protection aktif"
+                android:textSize="12sp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

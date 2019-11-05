@@ -10,5 +10,5 @@
 
     <dimen name="menu_icon_margin_left">0sp</dimen>
     <dimen name="menu_bar_text">12sp</dimen>
-    <dimen name="margin_top_menu">17dp</dimen>
+    <dimen name="margin_top_menu">22dp</dimen>
 </resources>

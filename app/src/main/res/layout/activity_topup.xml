@@ -6,37 +6,198 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- HEADER -->
+    <LinearLayout
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <!-- BACK BUTTON -->
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_arrow_left_white"
+            android:contentDescription="@string/back_desc"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/isi_saldo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backButton"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            app:fontFamily="@font/productsansbold"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
     <!-- INPUT TEXT LABEL -->
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="MASUKAN NOMINAL"
+        app:layout_constraintTop_toBottomOf="@id/heading"
+        android:text="@string/enter_nominal"
         android:textSize="12sp"
         app:fontFamily="@font/productsansbold"
-        android:layout_margin="20dp"/>
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
-    <!-- INPUT FIELD -->
-    <EditText
+    <!-- TOP UP VALUE -->
+    <me.abhinay.input.CurrencyEditText
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/etInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Rp0"
-        android:textSize="30sp"
-        android:paddingBottom="20dp"
-        android:fontFamily="@font/productsansbold"
-        android:layout_marginTop="-5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/label"/>
+        app:layout_constraintTop_toBottomOf="@id/label"
+        app:fontFamily="@font/productsansbold"
+        android:background="@null"
+        android:hint="@string/default_nominal"
+        android:textSize="35sp" />
+
+    <!-- REMINDER LABEL -->
+    <TextView
+        android:id="@+id/reminder_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reminder_label"
+        app:fontFamily="@font/productsansbold"
+        app:layout_constraintTop_toBottomOf="@id/etInput"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/danger"/>
+
+    <!-- RP 9.000 SHORTHAND -->
+    <LinearLayout
+        android:id="@+id/rp_9000"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/reminder_label"
+        app:layout_constraintWidth_percent="0.25"
+        android:background="@drawable/rounded_menu_danger"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:contentDescription="@string/money_waving"
+            android:src="@drawable/ic_money_bill_wave"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rp_9000"
+            app:fontFamily="@font/productsansbold"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+    <!-- RP 19.000 SHORTHAND -->
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/reminder_label"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintLeft_toRightOf="@id/rp_9000"
+        android:id="@+id/rp_19000"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_menu_green"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_money_bill_wave"
+            android:contentDescription="@string/money_waving"/>
+
+        <TextView
+            app:fontFamily="@font/productsansbold"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rp_19000"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+    <!-- RP 29.000 SHORTHAND -->
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/reminder_label"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintLeft_toRightOf="@id/rp_19000"
+        android:id="@+id/rp_29000"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_menu"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_money_bill_wave"
+            android:contentDescription="@string/money_waving"/>
+
+        <TextView
+            app:fontFamily="@font/productsansbold"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rp_19000"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
 
     <!-- PROCEED BUTTON -->
     <Button
         android:id="@+id/proceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LANJUTKAN"
+        android:text="@string/btn_continue"
         android:height="55sp"
         app:fontFamily="@font/productsansbold"
         android:background="@color/colorPrimary"
