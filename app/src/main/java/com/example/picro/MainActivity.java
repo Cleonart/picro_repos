@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int selector = view.getId();
 
         if(selector == R.id.profile_photo){
-            intentSettings = new Intent(MainActivity.this, ActivityAbout.class);
+            intentSettings = new Intent(MainActivity.this, ActivitySplash.class);
         }
 
         // MENU BAYAR - ActivityPay

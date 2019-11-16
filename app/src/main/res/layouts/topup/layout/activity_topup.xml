@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- HEADER -->
     <LinearLayout
@@ -12,36 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- BACK BUTTON -->
         <ImageView
             android:id="@+id/back"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_arrow_left_white"
-            android:contentDescription="@string/back_desc"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:contentDescription="@string/back_desc"
+            android:src="@drawable/ic_arrow_left_white" />
 
         <!-- TITLE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/isi_saldo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/backButton"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="22dp"
-            android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
-            android:textColor="@color/white"
             android:gravity="center_vertical"
+            android:text="@string/isi_saldo"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             app:fontFamily="@font/productsansbold"
-            android:textSize="20sp"/>
+            app:layout_constraintLeft_toRightOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
@@ -50,145 +49,145 @@
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/heading"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/enter_nominal"
         android:textSize="12sp"
         app:fontFamily="@font/productsansbold"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        app:layout_constraintTop_toBottomOf="@id/heading" />
 
     <!-- TOP UP VALUE -->
     <me.abhinay.input.CurrencyEditText
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
         android:id="@+id/etInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@id/label"
-        app:fontFamily="@font/productsansbold"
-        android:background="@null"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:hint="@string/default_nominal"
-        android:textSize="35sp" />
+        android:paddingBottom="20dp"
+        android:inputType="number"
+        android:textSize="35sp"
+        app:fontFamily="@font/productsansbold"
+        app:layout_constraintTop_toBottomOf="@id/label" />
 
     <!-- REMINDER LABEL -->
     <TextView
         android:id="@+id/reminder_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reminder_label"
-        app:fontFamily="@font/productsansbold"
-        app:layout_constraintTop_toBottomOf="@id/etInput"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
+        android:text="@string/reminder_label"
+        android:textColor="@color/danger"
         android:textSize="12sp"
-        android:textColor="@color/danger"/>
+        app:fontFamily="@font/productsansbold"
+        app:layout_constraintTop_toBottomOf="@id/etInput" />
 
     <!-- RP 9.000 SHORTHAND -->
     <LinearLayout
         android:id="@+id/rp_9000"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/reminder_label"
-        app:layout_constraintWidth_percent="0.25"
-        android:background="@drawable/rounded_menu_danger"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_menu_danger"
+        android:orientation="vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reminder_label"
+        app:layout_constraintWidth_percent="0.25">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:contentDescription="@string/money_waving"
-            android:src="@drawable/ic_money_bill_wave"/>
+            android:src="@drawable/ic_money_bill_wave" />
 
         <TextView
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/rp_9000"
-            app:fontFamily="@font/productsansbold"
-            android:textSize="15sp"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textAlignment="center"/>
+            android:textSize="15sp"
+            app:fontFamily="@font/productsansbold" />
 
     </LinearLayout>
 
     <!-- RP 19.000 SHORTHAND -->
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/reminder_label"
-        app:layout_constraintWidth_percent="0.25"
-        app:layout_constraintLeft_toRightOf="@id/rp_9000"
         android:id="@+id/rp_19000"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/rounded_menu_green"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_menu_green"
+        android:orientation="vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        app:layout_constraintLeft_toRightOf="@id/rp_9000"
+        app:layout_constraintTop_toBottomOf="@id/reminder_label"
+        app:layout_constraintWidth_percent="0.25">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:src="@drawable/ic_money_bill_wave"
-            android:contentDescription="@string/money_waving"/>
+            android:contentDescription="@string/money_waving"
+            android:src="@drawable/ic_money_bill_wave" />
 
         <TextView
-            app:fontFamily="@font/productsansbold"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/rp_19000"
-            android:textSize="15sp"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textAlignment="center"/>
+            android:textSize="15sp"
+            app:fontFamily="@font/productsansbold" />
 
     </LinearLayout>
 
     <!-- RP 29.000 SHORTHAND -->
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/reminder_label"
-        app:layout_constraintWidth_percent="0.25"
-        app:layout_constraintLeft_toRightOf="@id/rp_19000"
         android:id="@+id/rp_29000"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/rounded_menu"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_menu"
+        android:orientation="vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        app:layout_constraintLeft_toRightOf="@id/rp_19000"
+        app:layout_constraintTop_toBottomOf="@id/reminder_label"
+        app:layout_constraintWidth_percent="0.25">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:src="@drawable/ic_money_bill_wave"
-            android:contentDescription="@string/money_waving"/>
+            android:contentDescription="@string/money_waving"
+            android:src="@drawable/ic_money_bill_wave" />
 
         <TextView
-            app:fontFamily="@font/productsansbold"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rp_19000"
-            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:text="@string/rp_29000"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textAlignment="center"/>
+            android:textSize="15sp"
+            app:fontFamily="@font/productsansbold" />
 
     </LinearLayout>
 
@@ -197,12 +196,12 @@
         android:id="@+id/proceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_continue"
-        android:height="55sp"
-        app:fontFamily="@font/productsansbold"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
         android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:height="55sp"
+        android:background="@color/colorPrimary"
+        android:text="@string/btn_continue"
+        android:textColor="@color/white"
+        app:fontFamily="@font/productsansbold"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

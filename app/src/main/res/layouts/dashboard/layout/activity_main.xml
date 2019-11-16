@@ -197,12 +197,11 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="36dp"
                     android:layout_height="30dp"
-                    android:layout_marginBottom="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_plus"
-                    />
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_plus" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -347,7 +346,8 @@
                 android:id="@+id/rv_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/record_item_row"/>
+                tools:listitem="@layout/record_item_row"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 
