@@ -1,22 +1,37 @@
 package com.example.picro;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, FirebaseController.ResultHandler{
 
     Intent intentSettings;
-
+    FirebaseController controller = new FirebaseController();
     private RecyclerView rvRecord;
     private ArrayList<RecordData> list = new ArrayList<>();
+
+    String uid, serial;
+    int amount;
+    TextView text_amount, protection_label;
+    ConstraintLayout protection_body;
 
     // ON CREATE
     @Override
@@ -27,25 +42,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setActionBarTitle("Picro | List");
         disableActionBar();
 
-        // CIRCLE IMAGE VIEW
-        CircleImageView profile = findViewById(R.id.profile_photo);
-        profile.setOnClickListener(this);
+        controller.setResultHandler(this);
 
-        // BUTTON BAYAR
-        LinearLayout button_bayar = findViewById(R.id.menu_bayar);
-        button_bayar.setOnClickListener(this);
+        uid = getShareData("UID");
+        serial = getShareData("SERIAL");
 
-        // BUTTON TOPUP
-        LinearLayout button_topup = findViewById(R.id.menu_topup);
-        button_topup.setOnClickListener(this);
+        text_amount = findViewById(R.id.amount);
+        protection_body = findViewById(R.id.protection_body);
+        protection_label = findViewById(R.id.protection_label);
 
-        // BUTTON TRANSFER
-        LinearLayout button_tranf = findViewById(R.id.menu_transfer);
-        button_tranf.setOnClickListener(this);
+        // init button
+        buttonInit();
 
-        // BUTTON HELP
-        LinearLayout button_helps = findViewById(R.id.menu_petunjuk);
-        button_helps.setOnClickListener(this);
+        // real time data set
+        //controller.getChildValueOneTime("picro_passengers/" + uid + "/username"); //get name
+        controller.getChildValueRealTime("picro_cards_manifest/" + serial + "/pica_amount");
 
         // RV RECORD DATA
         rvRecord = findViewById(R.id.rv_record);
@@ -66,6 +77,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showSelectedItem(data);
             }
         });
+    }
+
+    // button init
+    private void buttonInit(){
+        // CIRCLE IMAGE VIEW
+        CircleImageView profile = findViewById(R.id.profile_photo);
+        profile.setOnClickListener(this);
+
+        // BUTTON BAYAR
+        LinearLayout button_bayar = findViewById(R.id.menu_bayar);
+        button_bayar.setOnClickListener(this);
+
+        // BUTTON TOPUP
+        LinearLayout button_topup = findViewById(R.id.menu_topup);
+        button_topup.setOnClickListener(this);
+
+        // BUTTON TRANSFER
+        LinearLayout button_tranf = findViewById(R.id.menu_transfer);
+        button_tranf.setOnClickListener(this);
+
+        // BUTTON HELP
+        LinearLayout button_helps = findViewById(R.id.menu_petunjuk);
+        button_helps.setOnClickListener(this);
     }
 
     // SET ACTION BAR
@@ -121,5 +155,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public void setValueStatus(String path, int status) {
+
+    }
+
+    @Override
+    public void valueListener(String path, DataSnapshot data) {
+        amount = Integer.parseInt(String.valueOf(data.getValue()));
+        String fix_amount = "";
+
+        if(amount >= 0){
+            fix_amount = "Rp. " + String.valueOf(DecimalFormater.goToDecimal(amount));
+            protection_body.setBackgroundResource(R.drawable.rounded_menu_green);
+            protection_label.setText("Cash Protection aktif");
+        }
+
+        else{
+            fix_amount = "Rp. 0";
+            protection_body.setBackgroundResource(R.drawable.rounded_menu_danger);
+            protection_label.setText("Cash Protection tidak aktif");
+        }
+
+        text_amount.setText(fix_amount);
+    }
+
+    // GET SHARE DATA
+    public String getShareData(String selector){
+        SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
+        return shared.getString(selector, null);
+    }
 }
 

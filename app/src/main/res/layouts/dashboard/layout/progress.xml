@@ -18,7 +18,7 @@
         android:layout_height="70dp"
         android:id="@+id/spinKit"
         app:SpinKit_Color="#f6f7f9"
-        style="@style/SpinKitView.Small.DoubleBounce"
+        style="@style/SpinKitView.Small.FadingCircle"
         app:layout_constraintRight_toRightOf="parent"
         />
 

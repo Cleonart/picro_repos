@@ -31,11 +31,12 @@ public class ActivitySplash extends AppCompatActivity implements View.OnClickLis
 
         int selector = view.getId();
 
-        // BUTTON DATA
+        // button action
         if(R.id.buttonGroup == selector){
-            intentControl = new Intent(ActivitySplash.this, ActivityLogin.class);
+            intentControl = new Intent(ActivitySplash.this, ActivityScanner.class);
         }
 
         startActivity(intentControl);
+        finish();
     }
 }

@@ -133,9 +133,9 @@
                     android:fontFamily="@font/productsansbold"/>
 
                 <TextView
+                    android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rp. 10.000"
                     android:textSize="24sp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/productsans"
@@ -279,6 +279,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/protection_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_menu_green"
@@ -297,6 +298,7 @@
                 android:src="@drawable/ic_shield_alt"/>
 
             <TextView
+                android:id="@+id/protection_label"
                 app:layout_constraintLeft_toRightOf="@+id/logo_shield"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"

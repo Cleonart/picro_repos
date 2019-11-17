@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp">
+    android:layout_height="match_parent">
 
     <!-- input -->
     <LinearLayout
@@ -15,25 +13,20 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="35dp"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <!-- heading -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="picropay"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/productsansbold"
             android:textColor="@color/colorPrimary"
             android:textSize="35sp"/>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Form Pendaftaran"
-            android:layout_marginBottom="20dp"
-            android:textSize="17sp"
-            android:fontFamily="@font/productsans"
-            android:textColor="#000"/>
 
         <!-- nama pengguna -->
         <TextView
@@ -43,11 +36,14 @@
             android:text="NAMA PENGGUNA"
             android:textSize="@dimen/textViewNormal"
             android:fontFamily="@font/productsansbold"/>
+
         <EditText
+            android:id="@+id/register_user_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/productsans"
             android:hint="John"
+            android:inputType="text"
             android:paddingBottom="@dimen/paddingInput"
             />
 
@@ -59,11 +55,14 @@
             android:fontFamily="@font/productsansbold"
             android:textSize="@dimen/textViewNormal"
             android:text="KODE OTENTIKASI - 6 DIGIT" />
+
         <EditText
+            android:id="@+id/register_auth_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/productsans"
             android:hint="******"
+            android:maxLength="6"
             android:inputType="numberPassword"
             android:paddingBottom="@dimen/paddingInput"
             />
@@ -76,19 +75,25 @@
             android:fontFamily="@font/productsansbold"
             android:textSize="@dimen/textViewNormal"
             android:text="KONFIRMASI KODE OTENTIKASI" />
+
         <EditText
+            android:id="@+id/register_auth_code_again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/productsans"
             android:hint="******"
             android:inputType="numberPassword"
             android:paddingBottom="@dimen/paddingInput"
+            android:maxLength="6"
             />
 
     </LinearLayout>
 
     <!-- button -->
     <Button
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="DAFTAR"
@@ -102,6 +107,8 @@
 
     <!-- aggrement -->
     <TextView
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/aggrement"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -112,5 +119,12 @@
         android:textSize="13sp"
         android:lineSpacingExtra="2sp"
         android:text="Dengan mendaftar saya setuju dengan syarat dan ketentuan yang mungkin berlaku"/>
+
+    <LinearLayout
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/progress"></include>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

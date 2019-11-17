@@ -23,7 +23,8 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ActivityLogin extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler, FirebaseController.ResultHandler{
+
+public class ActivityScanner extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler, FirebaseController.ResultHandler{
 
     private FirebaseController firebaseController = new FirebaseController();
     private ZXingScannerView scannerView;
@@ -58,7 +59,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        scannerView.setResultHandler(ActivityLogin.this);
+                        scannerView.setResultHandler(ActivityScanner.this);
                         scannerView.startCamera();
                     }
 
@@ -95,8 +96,11 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
         int selector = view.getId();
 
+        // back button action
         if(selector == R.id.backButton){
             scannerView.stopCamera();
+            intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
+            startActivity(intentSettings);
             finish();
         }
 
@@ -110,23 +114,31 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     @Override
     public void valueListener(String path, DataSnapshot data) {
 
-        // variable definition
-        int cardStatus = Integer.parseInt(data.child("stats").getValue().toString());
-        String cardUid = data.child("card_uid").getValue().toString();
+        int card_stats = Integer.parseInt(String.valueOf(data.child("pica_stats").getValue()));
+        String card_uid = String.valueOf(data.child("pica_uid").getValue());
 
-        // do register
-        if(cardStatus == 0){
-            intentSettings = new Intent(ActivityLogin.this, ActivityRegister.class);
+        // go to register page
+        if(card_stats == 0){
+            Toast.makeText(getApplicationContext(), "Kartu masih tersedia, silahkan mendaftar",Toast.LENGTH_LONG).show();
+            intentSettings = new Intent(ActivityScanner.this,ActivityRegister.class);
+            Bundle extras = new Bundle();
+            extras.putString("SERIAL", uid);
+            extras.putString("UID",card_uid);
+            intentSettings.putExtras(extras);
+            startActivity(intentSettings);
+            finish();
         }
 
-        // do login
-        else if(cardStatus == 1){
-            intentSettings = new Intent(ActivityLogin.this, ActivitySplash.class);
-            setShareData(uid);
+        // 6 digit code input
+        else if(card_stats == 1){
+            intentSettings = new Intent(ActivityScanner.this,ActivityAuth.class);
+            Bundle extras = new Bundle();
+            extras.putString("SERIAL", uid);
+            extras.putString("UID",card_uid);
+            intentSettings.putExtras(extras);
+            startActivity(intentSettings);
+            finish();
         }
-
-        startActivity(intentSettings);
-
     }
 
     // set share data

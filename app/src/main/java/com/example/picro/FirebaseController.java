@@ -2,9 +2,9 @@ package com.example.picro;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.wifi.p2p.WifiP2pManager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,17 +22,28 @@ public class FirebaseController{
     DatabaseReference reference_get;
 
     // CONSTRUCTOR
-    public FirebaseController(){
+    public FirebaseController() {
 
     }
 
     // INTERFACE SETTER
-    public void setResultHandler(ResultHandler resultHandler){
+    public void setResultHandler(ResultHandler resultHandler) {
         this.resultHandler = resultHandler;
     }
 
     // firebase set value
-    public void setValue(final String path, String data){
+    public void setValue(final String path, String data) {
+        reference_set = firebase.getReference(path);
+        reference_set.setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                resultHandler.setValueStatus(path, 1);
+            }
+        });
+    }
+
+    // firebase set object value
+    public void insertValueObject(final String path, Object data) {
         reference_set = firebase.getReference(path);
         reference_set.setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -43,7 +54,7 @@ public class FirebaseController{
     }
 
     // get child value one time
-    public void getChildValueOneTime(final String path){
+    public void getChildValueOneTime(final String path) {
         reference_get = firebase.getReference();
         DatabaseReference r_data = reference_get.child(path);
         r_data.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -62,7 +73,6 @@ public class FirebaseController{
 
     // get value real time
     public void getChildValueRealTime(final String path){
-
         reference_get = firebase.getReference();
         DatabaseReference r_data = reference_get.child(path);
         r_data.addValueEventListener(new ValueEventListener() {
@@ -85,5 +95,6 @@ public class FirebaseController{
         void setValueStatus(String path, int status);
         void valueListener(String path, DataSnapshot data);
     }
+
 
 }

@@ -15,6 +15,7 @@ public class DetailRecord extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_item_detail);
         disableActionBar();

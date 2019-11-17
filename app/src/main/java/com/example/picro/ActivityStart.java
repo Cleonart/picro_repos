@@ -18,17 +18,17 @@ public class ActivityStart extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
         getSupportActionBar().hide();
 
-        // IF AUTH CODE IS AUTHENTICATED
+        // if auth code is not authenticated
         if(getShareData("auth_code" ) == null || getShareData("auth_code") == "" ){
-            Toast.makeText(getApplicationContext(), "Logging you in",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Logging you in",Toast.LENGTH_LONG).show();
             intentSettings = new Intent(ActivityStart.this, ActivitySplash.class);
         }
 
-        // CODE IS AUTHENTICATED
+        // if code is authenticated
         else{
-            Toast.makeText(getApplicationContext(), "Selamat datang kembali",Toast.LENGTH_LONG).show();
-            intentSettings = new Intent(ActivityStart.this, ActivitySplash.class);
-            startActivity(intentSettings);
+            //Toast.makeText(getApplicationContext(), "Selamat datang kembali",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), getShareData("auth_code"),Toast.LENGTH_LONG).show();
+            intentSettings = new Intent(ActivityStart.this, MainActivity.class);
         }
 
         startActivity(intentSettings);
