@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // button init
     private void buttonInit(){
         // CIRCLE IMAGE VIEW
-        CircleImageView profile = findViewById(R.id.profile_photo);
+        CircleImageView profile = findViewById(R.id.power_off);
         profile.setOnClickListener(this);
 
         // BUTTON BAYAR
@@ -130,8 +130,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int selector = view.getId();
 
-        if(selector == R.id.profile_photo){
+        if(selector == R.id.power_off){
             intentSettings = new Intent(MainActivity.this, ActivitySplash.class);
+            SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = shared.edit();
+            editor.clear();
+            editor.commit();
+            startActivity(intentSettings);
+            finish();
         }
 
         // MENU BAYAR - ActivityPay
@@ -157,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(selector == R.id.menu_petunjuk) {
             intentSettings = new Intent(MainActivity.this, ActivityHelp.class);
         }
+
 
     }
 

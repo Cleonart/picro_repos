@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -86,6 +87,16 @@
             android:paddingBottom="@dimen/paddingInput"
             android:maxLength="6"
             />
+
+        <CheckBox
+            android:layout_marginTop="10dp"
+            android:id="@+id/show_auth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="TAMPILKAN KODE"
+            android:fontFamily="@font/productsansbold"
+            android:textColor="#000"
+            android:textSize="11sp"/>
 
     </LinearLayout>
 

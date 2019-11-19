@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -46,6 +50,24 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
         username = findViewById(R.id.register_user_id);
         auth_code = findViewById(R.id.register_auth_code);
         auth_code_again = findViewById(R.id.register_auth_code_again);
+
+        // checkbox
+        CheckBox showAuth = findViewById(R.id.show_auth);
+        showAuth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b == true){
+                    auth_code.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    auth_code_again.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+
+                else{
+                    auth_code.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    auth_code_again.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
         // register button
         register = findViewById(R.id.register_btn);
@@ -114,7 +136,6 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
 
                             // send request data to server
                             controller.insertValueObject(pathGlobal, member);
-
                         }
                     }
 
@@ -131,19 +152,27 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
     @Override
     public void setValueStatus(String path, int status) {
 
-        if(status == 1){
-            controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
-            intentSettings = new Intent(ActivityRegister.this, MainActivity.class);
-            Toast.makeText(getApplicationContext(), "Selamat datang" ,Toast.LENGTH_LONG).show();
-            SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = shared.edit();
-            editor.putString("UNAME", text_username);
-            editor.putString("UID", uid);
-            editor.putString("SERIAL", serial);
-            editor.putString("auth_code", String.valueOf(uid) + String.valueOf(serial));
-            editor.commit();
-            finish();
-            startActivity(intentSettings);
+        if(path.equals(pathGlobal)){
+
+            if (status == 1) {
+                status = 0;
+                controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
+                intentSettings = new Intent(ActivityRegister.this, MainActivity.class);
+                Toast.makeText(getApplicationContext(), "Selamat datang", Toast.LENGTH_LONG).show();
+                SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = shared.edit();
+                editor.putString("UNAME", text_username);
+                editor.putString("UID", uid);
+                editor.putString("SERIAL", serial);
+                editor.putString("auth_code", String.valueOf(uid) + String.valueOf(serial));
+                editor.commit();
+                startActivity(intentSettings);
+                finish();
+            }
+        }
+
+        else{
+
         }
 
     }
