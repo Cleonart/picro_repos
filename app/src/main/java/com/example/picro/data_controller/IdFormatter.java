@@ -12,7 +12,7 @@ public class IdFormatter {
     }
 
     public static String getDate() {
-        SimpleDateFormat sf = new SimpleDateFormat("dd MM yyy");
+        SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
         String data = String.valueOf(sf.format(new Date()));
         return data;
     }

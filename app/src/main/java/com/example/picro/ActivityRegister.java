@@ -131,22 +131,19 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
     @Override
     public void setValueStatus(String path, int status) {
 
-        if(pathGlobal == path){
-
-            if(status == 1){
-                controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
-                intentSettings = new Intent(ActivityRegister.this, MainActivity.class);
-                startActivity(intentSettings);
-                Toast.makeText(getApplicationContext(), "Selamat datang" ,Toast.LENGTH_LONG).show();
-                SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = shared.edit();
-                editor.putString("UNAME", text_username);
-                editor.putString("UID", uid);
-                editor.putString("SERIAL", serial);
-                editor.putString("auth_code", String.valueOf(uid) + String.valueOf(serial));
-                editor.commit();
-                finish();
-            }
+        if(status == 1){
+            controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
+            intentSettings = new Intent(ActivityRegister.this, MainActivity.class);
+            Toast.makeText(getApplicationContext(), "Selamat datang" ,Toast.LENGTH_LONG).show();
+            SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = shared.edit();
+            editor.putString("UNAME", text_username);
+            editor.putString("UID", uid);
+            editor.putString("SERIAL", serial);
+            editor.putString("auth_code", String.valueOf(uid) + String.valueOf(serial));
+            editor.commit();
+            finish();
+            startActivity(intentSettings);
         }
 
     }

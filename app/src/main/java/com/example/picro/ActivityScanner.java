@@ -113,7 +113,6 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         }
 
         else if(mode.equals("PAYMENT")){
-
             PaymentModul pay = new PaymentModul();
             pay.setUidFrom(getShareData("SERIAL"));
             pay.setUidTo(String.valueOf(result));
