@@ -27,4 +27,6 @@
     <string name="money_waving">Money Waving</string>
     <string name="btn_continue">LANJUTKAN</string>
 
+    <string name="manifest">picro_cards_manifest</string>
+
 </resources>

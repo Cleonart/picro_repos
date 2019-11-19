@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.picro.data_controller.DecimalFormater;
+import com.example.picro.data_controller.FirebaseController;
 import com.google.firebase.database.DataSnapshot;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -28,9 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView rvRecord;
     private ArrayList<RecordData> list = new ArrayList<>();
 
-    String uid, serial;
+    String uid, serial, username;
     int amount;
-    TextView text_amount, protection_label;
+    TextView text_amount, protection_label, text_username;
     ConstraintLayout protection_body;
 
     // ON CREATE
@@ -44,12 +43,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         controller.setResultHandler(this);
 
-        uid = getShareData("UID");
+        uid    = getShareData("UID");
         serial = getShareData("SERIAL");
+        username = getShareData("UNAME");
 
         text_amount = findViewById(R.id.amount);
         protection_body = findViewById(R.id.protection_body);
         protection_label = findViewById(R.id.protection_label);
+        text_username    = findViewById(R.id.greet);
+        String greeting = "Halo, " + username;
+        text_username.setText(greeting);
 
         // init button
         buttonInit();
@@ -133,7 +136,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // MENU BAYAR - ActivityPay
         else if(selector == R.id.menu_bayar){
-            intentSettings = new Intent(MainActivity.this, ActivityPay.class);
+            intentSettings = new Intent(MainActivity.this, ActivityScanner.class);
+            Bundle extras = new Bundle();
+            extras.putString("SCANNER_MODE", "PAYMENT");
+            intentSettings.putExtras(extras);
+            startActivity(intentSettings);
         }
 
         // MENU TOPUP - ActivityTopUp
@@ -147,18 +154,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // MENU HELP - ActivityHelp
-        else if(selector == R.id.menu_petunjuk){
+        else if(selector == R.id.menu_petunjuk) {
             intentSettings = new Intent(MainActivity.this, ActivityHelp.class);
         }
-
-        startActivity(intentSettings);
 
     }
 
     @Override
-    public void setValueStatus(String path, int status) {
-
-    }
+    public void setValueStatus(String path, int status) {}
 
     @Override
     public void valueListener(String path, DataSnapshot data) {

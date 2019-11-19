@@ -34,6 +34,9 @@ public class ActivitySplash extends AppCompatActivity implements View.OnClickLis
         // button action
         if(R.id.buttonGroup == selector){
             intentControl = new Intent(ActivitySplash.this, ActivityScanner.class);
+            Bundle extras = new Bundle();
+            extras.putString("SCANNER_MODE", "LOGIN");
+            intentControl.putExtras(extras);
         }
 
         startActivity(intentControl);

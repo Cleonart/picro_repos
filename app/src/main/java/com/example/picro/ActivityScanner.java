@@ -7,10 +7,13 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.picro.data_controller.FirebaseController;
+import com.example.picro.feature_modul.PaymentModul;
 import com.google.firebase.database.DataSnapshot;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
@@ -31,15 +34,33 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
     RelativeLayout buttonBack;
     LinearLayout progress;
     String uid;
-
+    String mode;
     Intent intentSettings;
+    TextView qr_label;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        qr_label = findViewById(R.id.qr_text);
 
         firebaseController.setResultHandler(this);
+
+        Bundle extras = getIntent().getExtras();
+        mode = extras.getString("SCANNER_MODE");
+
+        // scanner mode for login and payment
+        if(mode.equals("LOGIN")){
+            qr_label.setText("Scan kartu QR anda");
+        }
+
+        else if(mode.equals("PAYMENT")){
+            qr_label.setText("Scan QR untuk membayar");
+        }
+
+        else if(mode.equals("TRANSFER")){
+            qr_label.setText("Scan kode QR penerima");
+        }
 
         // view scanner init
         scannerView = (ZXingScannerView)findViewById(R.id.rxscan);
@@ -86,10 +107,27 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
     public void handleResult(Result result) {
         scannerView.startCamera();                              // restart the camera for next scanning
         progress.setVisibility(View.VISIBLE);                   // set progress bar to show
+
+        if(mode.equals("LOGIN")){
+            handleLogin(result);
+        }
+
+        else if(mode.equals("PAYMENT")){
+
+            PaymentModul pay = new PaymentModul();
+            pay.setUidFrom(getShareData("SERIAL"));
+            pay.setUidTo(String.valueOf(result));
+            pay.setAmount(4000);
+            pay.payModul();
+        }
+    }
+
+    public void handleLogin(Result result){
         uid = String.valueOf(result);                           // convert result to string
         String temp_path = "picro_cards_manifest/" + uid;       // search for the card in cards_manifest
         firebaseController.getChildValueOneTime(temp_path);     // trigger the firebase module by using the previous path
     }
+
 
     @Override
     public void onClick(View view) {
@@ -98,10 +136,18 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
         // back button action
         if(selector == R.id.backButton){
-            scannerView.stopCamera();
-            intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
-            startActivity(intentSettings);
-            finish();
+
+            if(mode.equals("LOGIN")){
+                scannerView.stopCamera();
+                intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
+                startActivity(intentSettings);
+                finish();
+            }
+
+            else if(mode.equals("PAYMENT")){
+                finish();
+            }
+
         }
 
     }
@@ -114,30 +160,38 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
     @Override
     public void valueListener(String path, DataSnapshot data) {
 
-        int card_stats = Integer.parseInt(String.valueOf(data.child("pica_stats").getValue()));
-        String card_uid = String.valueOf(data.child("pica_uid").getValue());
+        if(mode.equals("LOGIN")) {
 
-        // go to register page
-        if(card_stats == 0){
-            Toast.makeText(getApplicationContext(), "Kartu masih tersedia, silahkan mendaftar",Toast.LENGTH_LONG).show();
-            intentSettings = new Intent(ActivityScanner.this,ActivityRegister.class);
-            Bundle extras = new Bundle();
-            extras.putString("SERIAL", uid);
-            extras.putString("UID",card_uid);
-            intentSettings.putExtras(extras);
-            startActivity(intentSettings);
-            finish();
+            int card_stats = Integer.parseInt(String.valueOf(data.child("pica_stats").getValue()));
+            String card_uid = String.valueOf(data.child("pica_uid").getValue());
+
+            // go to register pagehy
+            if (card_stats == 0) {
+                Toast.makeText(getApplicationContext(), "Kartu masih tersedia, silahkan mendaftar", Toast.LENGTH_LONG).show();
+                intentSettings = new Intent(ActivityScanner.this, ActivityRegister.class);
+                Bundle extras = new Bundle();
+                extras.putString("SERIAL", uid);
+                extras.putString("UID", card_uid);
+                intentSettings.putExtras(extras);
+                startActivity(intentSettings);
+                finish();
+            }
+
+            // 6 digit code input
+            else if (card_stats == 1) {
+                intentSettings = new Intent(ActivityScanner.this, ActivityAuth.class);
+                Bundle extras = new Bundle();
+                extras.putString("SERIAL", uid);
+                extras.putString("UID", card_uid);
+                intentSettings.putExtras(extras);
+                startActivity(intentSettings);
+                finish();
+            }
+
         }
 
-        // 6 digit code input
-        else if(card_stats == 1){
-            intentSettings = new Intent(ActivityScanner.this,ActivityAuth.class);
-            Bundle extras = new Bundle();
-            extras.putString("SERIAL", uid);
-            extras.putString("UID",card_uid);
-            intentSettings.putExtras(extras);
-            startActivity(intentSettings);
-            finish();
+        else if(mode.equals("PAYMENT")){
+
         }
     }
 

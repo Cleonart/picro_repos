@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.picro.data_controller.FirebaseController;
+import com.example.picro.data_model.MemberData;
 import com.google.firebase.database.DataSnapshot;
 
 public class ActivityRegister extends AppCompatActivity implements FirebaseController.ResultHandler{
@@ -23,6 +25,7 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
     Intent intentSettings;
     String pathGlobal;
     private String uid, serial;
+    String text_username, text_auth, text_auth_again;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,9 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
             @Override
             public void onClick(View view) {
 
-                String text_username    = username.getText().toString();
-                String text_auth        = auth_code.getText().toString();
-                String text_auth_again  = auth_code_again.getText().toString();
+                text_username    = username.getText().toString();
+                text_auth        = auth_code.getText().toString();
+                text_auth_again  = auth_code_again.getText().toString();
 
                 if(text_username.isEmpty()){
                     username.setError("Kotak username harus diisi");
@@ -137,6 +140,7 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
                 Toast.makeText(getApplicationContext(), "Selamat datang" ,Toast.LENGTH_LONG).show();
                 SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = shared.edit();
+                editor.putString("UNAME", text_username);
                 editor.putString("UID", uid);
                 editor.putString("SERIAL", serial);
                 editor.putString("auth_code", String.valueOf(uid) + String.valueOf(serial));
