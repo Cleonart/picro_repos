@@ -5,6 +5,7 @@
 
     <string name="desc_logo">Logo Resmi PICRO</string>
     <string name="picropay">picropay</string>
+    <string name="default_nominal">Rp 0</string>
 
     <!-- STRING UNTUK activity_pay -->
     <string name="heading">Bayar Picro</string>
@@ -13,5 +14,19 @@
     <string name="ap_legend_end">PICA tidak bisa digunakan karena sedang dinonaktifkan</string>
     <string name="ap_button_start">AKTIFKAN PICA</string>
     <string name="ap_button_end">NONAKTIFKAN PICA</string>
+
+
+    <!-- STRING UNTUK activity_topup -->
+    <string name="rp_9000">Rp 9,000</string>
+    <string name="rp_19000">Rp 19,000</string>
+    <string name="rp_29000">Rp 29,000</string>
+    <string name="isi_saldo">Isi Saldo</string>
+    <string name="back_desc">Tombol kembali ke menu utama</string>
+    <string name="enter_nominal">MASUKAN NOMINAL</string>
+    <string name="reminder_label">Minimum nominal top up Rp. 10,000</string>
+    <string name="money_waving">Money Waving</string>
+    <string name="btn_continue">LANJUTKAN</string>
+
+    <string name="manifest">picro_cards_manifest</string>
 
 </resources>

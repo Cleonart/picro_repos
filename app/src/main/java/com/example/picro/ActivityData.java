@@ -18,8 +18,7 @@ public class ActivityData {
         "Descendants of the Sun",
         "Strong Woman Do Bong Soon",
         "My Fellow Citizens",
-
-            "The Bride of Habaek",
+        "The Bride of Habaek",
     };
 
     // ARRAY RECORD DATA

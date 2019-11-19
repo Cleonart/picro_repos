@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,79 +9,90 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:paddingBottom="20dp">
+
+        <!-- TOP BORDER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginBottom="-10dp"
+            android:background="@color/colorPrimary"
+            />
 
         <!-- HEADING -->
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="0dp">
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="25dp">
 
-            <!-- LOGO PICRO -->
-            <ImageView
-                    android:visibility="invisible"
-                    android:id="@+id/about_button"
-                    android:layout_width="80dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/logo"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/desc_logo"
-                    android:layout_centerVertical="true"
-                    />
+            <!-- CIRCLE IMAGE -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/jtn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:id="@+id/greet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:fontFamily="@font/productsansbold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Halo, Cleonart"
-                android:fontFamily="@font/productsansbold"
-                android:textSize="25sp"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true"
-                android:textColor="#000"/>
+                android:text="Kelola PICA anda disini"
+                android:fontFamily="@font/productsans"
+                android:textSize="13sp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/greet"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="#000000"/>
 
-            <!-- CIRCLE IMAGE -->
-            <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_photo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/jtn"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_centerVertical="true"
-                    />
-
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- MENU TOP -->
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@drawable/rounded_menu"
+                android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="23dp"
-                android:paddingBottom="23dp">
+                android:paddingTop="25dp"
+                android:elevation="10dp"
+                android:clipToPadding="false"
+                android:paddingBottom="25dp">
 
             <!-- PICRO PAY LOGO -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:layout_width="17dp"
@@ -100,51 +112,48 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     app:fontFamily="@font/productsansbold"/>
-
             </LinearLayout>
 
-            <!-- FUNDS CAPTION -->
+            <!-- FUNDS -->
             <LinearLayout
                 android:id="@+id/funds"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Saldo anda"
-                android:layout_marginBottom="7dp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/productsans"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
 
                 <TextView
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Saldo anda"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/productsansbold"/>
+
+                <TextView
+                    android:id="@+id/amount"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rp. 10.000"
-                    android:textSize="25sp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="@font/productsansbold"
-                    android:textColor="#FFFFFF"
-                    android:gravity="start"/>
+                    android:textSize="24sp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/productsans"
+                    android:textColor="#FFFFFF"/>
 
             </LinearLayout>
 
-            <!-- SEPARTATOR -->
+            <!-- SEPARATOR -->
             <LinearLayout
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/white"
-                android:layout_marginTop="5dp"
+                android:layout_height="0.3dp"
                 android:orientation="vertical"
+                android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/funds"/>
 
             <!-- MENU BAYAR -->
             <LinearLayout
-                android:layout_marginTop="@dimen/main_menu_button_m_top"
+                android:layout_marginTop="@dimen/margin_top_menu"
                 android:id="@+id/menu_bayar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -176,7 +185,7 @@
 
             <!-- MENU TOPUP -->
             <LinearLayout
-                android:layout_marginTop="@dimen/main_menu_button_m_top"
+                android:layout_marginTop="@dimen/margin_top_menu"
                 android:id="@+id/menu_topup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -187,12 +196,11 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="36dp"
                     android:layout_height="30dp"
-                    android:layout_marginBottom="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_plus"
-                    />
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_plus" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -207,7 +215,7 @@
 
             <!-- MENU TRANSFER -->
             <LinearLayout
-                android:layout_marginTop="@dimen/main_menu_button_m_top"
+                android:layout_marginTop="@dimen/margin_top_menu"
                 android:id="@+id/menu_transfer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -238,7 +246,7 @@
 
             <!-- MENU PETUNJUK -->
             <LinearLayout
-                android:layout_marginTop="@dimen/main_menu_button_m_top"
+                android:layout_marginTop="@dimen/margin_top_menu"
                 android:id="@+id/menu_petunjuk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -249,11 +257,12 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="33dp"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_gravity="center"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_hands_helping" />
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_hands_helping"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -265,6 +274,42 @@
                     android:textColor="#FFFFFF"/>
 
             </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/protection_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_menu_green"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/logo_shield"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_shield_alt"/>
+
+            <TextView
+                android:id="@+id/protection_label"
+                app:layout_constraintLeft_toRightOf="@+id/logo_shield"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/productsansbold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:text="Cash Protection aktif"
+                android:textSize="12sp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -302,7 +347,8 @@
                 android:id="@+id/rv_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/record_item_row"/>
+                tools:listitem="@layout/record_item_row"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

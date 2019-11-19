@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.picro">
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <supports-screens android:largeScreens="false"
         android:smallScreens="true"
         android:normalScreens="true">
@@ -13,16 +17,30 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+
+        <!-- START -->
+        <activity android:name=".ActivityStart">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
+
+        <!-- one time use -->
+        <activity android:name=".feature_modul.PaymentModul"/>
+        <activity android:name=".ActivityRegister"/>
+        <activity android:name=".ActivitySplash"/>
+        <activity android:name=".MainActivity"/>
         <activity android:name=".DetailRecord"/>
         <activity android:name=".ActivityAbout"/>
         <activity android:name=".ActivityPay"/>
         <activity android:name=".ActivityTopUp"/>
+
+        <!-- reusable -->
+        <activity android:name=".ActivityScanner"/>
+        <activity android:name=".ActivityAuth"/>
+
     </application>
 
 </manifest>
