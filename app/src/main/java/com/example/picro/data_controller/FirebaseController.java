@@ -1,10 +1,6 @@
 package com.example.picro.data_controller;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

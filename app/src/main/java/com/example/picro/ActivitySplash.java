@@ -7,6 +7,8 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.picro.activity_modul.ActivityScanner;
+
 
 public class ActivitySplash extends AppCompatActivity implements View.OnClickListener {
 

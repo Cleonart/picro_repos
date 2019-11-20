@@ -2,9 +2,6 @@ package com.example.picro.feature_modul;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.picro.R;
 import com.example.picro.data_controller.IdFormatter;
 import com.example.picro.data_model.PaymentRecord;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -14,11 +11,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+public class PaymentModul {
 
-public class PaymentModul extends AppCompatActivity {
+    private PaymentHandler paymentHandler;
 
     // firebase database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -28,31 +23,48 @@ public class PaymentModul extends AppCompatActivity {
     private String uidFrom;
     private String uidTo;
     private int amount;
+    private int qty;
 
+    // set data
     public void setUidFrom(String uidFrom) {
         this.uidFrom = uidFrom;
     }
+    public void setUidTo(String uidTo)     { this.uidTo = uidTo;     }
+    public void setQty(int qty)            { this.qty = qty;         }
 
-    public void setUidTo(String uidTo) {
-        this.uidTo = uidTo;
+    // payment modul constructor
+    public PaymentModul(){ }
+
+    // interface setter
+    public void setPaymentHandler(PaymentHandler paymentHandler) {
+        this.paymentHandler = paymentHandler;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public PaymentModul(){
-
-    }
-
+    // payment modul constructor
     public PaymentModul(String uidFrom, String uidTo, int amount){
         this.uidFrom = uidFrom;
         this.uidTo = uidTo;
         this.amount = amount;
     }
 
+    // pay modul
     public void payModul(){
-        userFundsCheck();
+
+        // check for the picro amount funds
+        DatabaseReference amountCheck = database.getReference("picro_settings/picro_amount");
+        amountCheck.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                amount = Integer.parseInt(String.valueOf(dataSnapshot.getValue())) * qty;
+                userFundsCheck();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     // check the user funds
@@ -64,7 +76,6 @@ public class PaymentModul extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                 // get the user funds
                 int userFunds = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
@@ -149,9 +160,18 @@ public class PaymentModul extends AppCompatActivity {
 
         // record the payment
         DatabaseReference record = database.getReference("picro_payment/" + uidFrom + "/" + IdFormatter.paymentId());
-        record.setValue(recordModel);
+        record.setValue(recordModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                paymentHandler.paymentStats("SUCCESS");
+            }
+        });
 
     }
 
+    // interface
+    public interface PaymentHandler{
+        void paymentStats(String status);
+    }
 
 }

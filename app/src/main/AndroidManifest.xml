@@ -34,12 +34,12 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".DetailRecord"/>
         <activity android:name=".ActivityAbout"/>
-        <activity android:name=".ActivityPay"/>
         <activity android:name=".ActivityTopUp"/>
 
         <!-- reusable -->
-        <activity android:name=".ActivityScanner"/>
-        <activity android:name=".ActivityAuth"/>
+        <activity android:name=".activity_modul.ActivityScanner"/>
+        <activity android:name=".activity_modul.ActivityAuth"/>
+        <activity android:name=".activity_fragment.PaymentApproved"/>
 
     </application>
 

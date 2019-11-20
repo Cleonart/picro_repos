@@ -1,18 +1,27 @@
-package com.example.picro;
+package com.example.picro.activity_modul;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.picro.ActivityRegister;
+import com.example.picro.ActivitySplash;
+import com.example.picro.R;
+import com.example.picro.activity_fragment.PaymentApproved;
+import com.example.picro.activity_fragment.PaymentQuantity;
 import com.example.picro.data_controller.FirebaseController;
+import com.example.picro.data_model.PaymentQuantitySelector;
 import com.example.picro.feature_modul.PaymentModul;
 import com.google.firebase.database.DataSnapshot;
 import com.google.zxing.Result;
@@ -24,42 +33,76 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 
+import java.util.ArrayList;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
-public class ActivityScanner extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler, FirebaseController.ResultHandler{
+public class ActivityScanner extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler, FirebaseController.ResultHandler, PaymentModul.PaymentHandler{
 
+    private ArrayList<PaymentQuantitySelector> quantity;
+    private PaymentQuantity quantityAdapter;
     private FirebaseController firebaseController = new FirebaseController();
+    private PaymentModul paymentModul = new PaymentModul();
     private ZXingScannerView scannerView;
     RelativeLayout buttonBack;
     LinearLayout progress;
     String uid;
     String mode;
     Intent intentSettings;
+    int amount = 4000, index;
     TextView qr_label;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        qr_label = findViewById(R.id.qr_text);
+        setContentView(R.layout.activity_scanner);
 
+        // handler
+        paymentModul.setPaymentHandler(this);
         firebaseController.setResultHandler(this);
 
+        // bundling
         Bundle extras = getIntent().getExtras();
         mode = extras.getString("SCANNER_MODE");
 
-        // scanner mode for login and payment
+        // scanner mode for login
         if(mode.equals("LOGIN")){
-            qr_label.setText("Scan kartu QR anda");
         }
 
+        // scanner mode for payment
         else if(mode.equals("PAYMENT")){
-            qr_label.setText("Scan QR untuk membayar");
+
+            Spinner qty_select = findViewById(R.id.quantity_select);
+            qty_select.setVisibility(View.VISIBLE);
+
+            quantity = new ArrayList<>();
+            quantity.add(new PaymentQuantitySelector("Bayar Sendiri", R.drawable.pay_1,1));
+            quantity.add(new PaymentQuantitySelector("Bayar Berdua", R.drawable.pay_2,2));
+            quantity.add(new PaymentQuantitySelector("Bayar Bertiga", R.drawable.pay_3,3));
+            quantity.add(new PaymentQuantitySelector("Bayar Berempat", R.drawable.pay_4,4));
+
+            quantityAdapter = new PaymentQuantity(this, quantity);
+            qty_select.setAdapter(quantityAdapter) ;
+
+            qty_select.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    PaymentQuantitySelector clidkedItem =  (PaymentQuantitySelector) adapterView.getItemAtPosition(i);
+                    index = clidkedItem.getIndex();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
         }
 
+        // scanner mode for transfer
         else if(mode.equals("TRANSFER")){
-            qr_label.setText("Scan kode QR penerima");
         }
 
         // view scanner init
@@ -73,6 +116,7 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         // hide the progress bar
         progress = findViewById(R.id.progressBar);
         progress.setVisibility(View.INVISIBLE);
+
 
         // permission
         Dexter.withActivity(this)
@@ -108,16 +152,17 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         scannerView.startCamera();                              // restart the camera for next scanning
         progress.setVisibility(View.VISIBLE);                   // set progress bar to show
 
+        // login
         if(mode.equals("LOGIN")){
             handleLogin(result);
         }
 
+        // payment
         else if(mode.equals("PAYMENT")){
-            PaymentModul pay = new PaymentModul();
-            pay.setUidFrom(getShareData("SERIAL"));
-            pay.setUidTo(String.valueOf(result));
-            pay.setAmount(4000);
-            pay.payModul();
+            paymentModul.setUidFrom(getShareData("SERIAL"));
+            paymentModul.setUidTo(String.valueOf(result));
+            paymentModul.setQty(index);
+            paymentModul.payModul();
         }
     }
 
@@ -126,7 +171,6 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         String temp_path = "picro_cards_manifest/" + uid;       // search for the card in cards_manifest
         firebaseController.getChildValueOneTime(temp_path);     // trigger the firebase module by using the previous path
     }
-
 
     @Override
     public void onClick(View view) {
@@ -189,9 +233,17 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
         }
 
-        else if(mode.equals("PAYMENT")){
+    }
 
+    @Override
+    public void paymentStats(String status) {
+
+        if(status.equals("SUCCESS")){
+            intentSettings = new Intent(ActivityScanner.this, PaymentApproved.class);
+            startActivity(intentSettings);
+            finish();
         }
+
     }
 
     // set share data

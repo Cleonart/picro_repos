@@ -1,4 +1,4 @@
-package com.example.picro;
+package com.example.picro.activity_modul;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.picro.MainActivity;
+import com.example.picro.R;
 import com.example.picro.data_controller.FirebaseController;
 import com.google.firebase.database.DataSnapshot;
 

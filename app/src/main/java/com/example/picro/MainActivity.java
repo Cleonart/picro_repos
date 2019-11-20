@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.picro.activity_modul.ActivityScanner;
 import com.example.picro.data_controller.DecimalFormater;
 import com.example.picro.data_controller.FirebaseController;
 import com.google.firebase.database.DataSnapshot;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
-        // MENU BAYAR - ActivityPay
+        // MENU BAYAR
         else if(selector == R.id.menu_bayar){
             intentSettings = new Intent(MainActivity.this, ActivityScanner.class);
             Bundle extras = new Bundle();
