@@ -52,7 +52,7 @@ public class PaymentModul {
 
         // check for the picro amount funds
         DatabaseReference amountCheck = database.getReference("picro_settings/picro_amount");
-        amountCheck.addValueEventListener(new ValueEventListener() {
+        amountCheck.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 amount = Integer.parseInt(String.valueOf(dataSnapshot.getValue())) * qty;

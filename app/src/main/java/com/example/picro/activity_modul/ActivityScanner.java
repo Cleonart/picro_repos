@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.picro.ActivityRegister;
@@ -24,6 +25,10 @@ import com.example.picro.data_controller.FirebaseController;
 import com.example.picro.data_model.PaymentQuantitySelector;
 import com.example.picro.feature_modul.PaymentModul;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -43,6 +48,7 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
     private ArrayList<PaymentQuantitySelector> quantity;
     private PaymentQuantity quantityAdapter;
     private FirebaseController firebaseController = new FirebaseController();
+    FirebaseDatabase tes = FirebaseDatabase.getInstance();
     private PaymentModul paymentModul = new PaymentModul();
     private ZXingScannerView scannerView;
     RelativeLayout buttonBack;
@@ -148,22 +154,61 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void handleResult(Result result) {
-        scannerView.startCamera();                              // restart the camera for next scanning
-        progress.setVisibility(View.VISIBLE);                   // set progress bar to show
+    public void handleResult(final Result result) {
 
-        // login
-        if(mode.equals("LOGIN")){
-            handleLogin(result);
-        }
+        scannerView.startCamera();                // restart the camera for next scanning
+        progress.setVisibility(View.VISIBLE);     // set progress bar to show
 
-        // payment
-        else if(mode.equals("PAYMENT")){
-            paymentModul.setUidFrom(getShareData("SERIAL"));
-            paymentModul.setUidTo(String.valueOf(result));
-            paymentModul.setQty(index);
-            paymentModul.payModul();
-        }
+        Query query = tes.getReference("picro_cards_manifest/" + String.valueOf(result) + "/pica_type");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String dataSnaps = String.valueOf(dataSnapshot.getValue());
+
+                // qr code not registered on system
+                if(dataSnaps.equals("null")){
+                    Toast.makeText(getApplicationContext(), "Kode QR salah atau tidak terdaftar", Toast.LENGTH_LONG).show();
+                    back();
+                }
+
+                // qr code registered
+                else{
+
+                    // login
+                    if(mode.equals("LOGIN")){
+                        handleLogin(result);
+                    }
+
+                    // payment
+                    else if(mode.equals("PAYMENT")){
+
+                        if(dataSnaps.equals("PASSENGER")){
+                            Toast.makeText(getApplicationContext(), "Maaf, kode qr yang di scan salah :(", Toast.LENGTH_LONG).show();
+                            back();
+                        }
+
+                        else if(dataSnaps.equals("DRIVER")){
+                            Toast.makeText(getApplicationContext(), "Memproses pembayaran, sabar yach :)", Toast.LENGTH_LONG).show();
+                            paymentModul.setUidFrom(getShareData("SERIAL"));
+                            paymentModul.setUidTo(String.valueOf(result));
+                            paymentModul.setQty(index);
+                            paymentModul.payModul();
+                        }
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void handleLogin(Result result){
@@ -179,18 +224,22 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
         // back button action
         if(selector == R.id.backButton){
+            back();
+        }
 
-            if(mode.equals("LOGIN")){
-                scannerView.stopCamera();
-                intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
-                startActivity(intentSettings);
-                finish();
-            }
+    }
 
-            else if(mode.equals("PAYMENT")){
-                finish();
-            }
+    public void back(){
 
+        if(mode.equals("LOGIN")){
+            scannerView.stopCamera();
+            intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
+            startActivity(intentSettings);
+            finish();
+        }
+
+        else if(mode.equals("PAYMENT")){
+            finish();
         }
 
     }
