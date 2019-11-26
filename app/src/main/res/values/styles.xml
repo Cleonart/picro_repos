@@ -16,4 +16,7 @@
     <dimen name="textViewNormal">12.5sp</dimen>
     <dimen name="paddingInput">19dp</dimen>
     <dimen name="margin_between">20dp</dimen>
+
+    <dimen name="margin_between_help_topup">-5dp</dimen>
+    <dimen name="line_help_topup">65dp</dimen>
 </resources>

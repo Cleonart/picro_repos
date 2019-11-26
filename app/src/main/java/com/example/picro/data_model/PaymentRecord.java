@@ -3,6 +3,7 @@ package com.example.picro.data_model;
 public class PaymentRecord{
 
     // variable data
+    private String id;
     private String from;
     private String to;
     private String type;
@@ -12,7 +13,11 @@ public class PaymentRecord{
 
     public PaymentRecord(){ }
 
-    // function
+    // id
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id;  }
+
+    // from
     public void setFrom(String from) {
         this.from = from;
     }
@@ -20,6 +25,7 @@ public class PaymentRecord{
         return from;
     }
 
+    // to
     public void setTo(String to) {
         this.to = to;
     }
@@ -27,6 +33,7 @@ public class PaymentRecord{
         return to;
     }
 
+    // amount
     public void setAmount(int amount) {
         this.amount = amount;
     }
@@ -34,6 +41,7 @@ public class PaymentRecord{
         return amount;
     }
 
+    // type
     public void setType(String type) {
         this.type = type;
     }
@@ -41,6 +49,7 @@ public class PaymentRecord{
         return type;
     }
 
+    // date record
     public void setDaterecord(String date_record) {
         this.date_record = date_record;
     }
@@ -48,6 +57,7 @@ public class PaymentRecord{
         return date_record;
     }
 
+    // timestamp
     public void setTimestamp(double timestamp) {
         this.timestamp = timestamp;
     }

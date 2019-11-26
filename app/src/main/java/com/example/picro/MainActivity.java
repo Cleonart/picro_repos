@@ -3,21 +3,38 @@ package com.example.picro;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.picro.activity_modul.ActivityScanner;
 import com.example.picro.data_controller.DecimalFormater;
 import com.example.picro.data_controller.FirebaseController;
+import com.example.picro.data_controller.FirebaseViewHolder;
+import com.example.picro.data_model.PaymentRecord;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,8 +42,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Intent intentSettings;
     FirebaseController controller = new FirebaseController();
+    FirebaseDatabase databases = FirebaseDatabase.getInstance();
+    DatabaseReference ref;
     private RecyclerView rvRecord;
-    private ArrayList<RecordData> list = new ArrayList<>();
+    private ArrayList<PaymentRecord> list = new ArrayList<>();
+    FirebaseRecyclerOptions<PaymentRecord> options;
+    FirebaseRecyclerAdapter<PaymentRecord, FirebaseViewHolder> adapters;
 
     String uid, serial, username;
     int amount;
@@ -42,35 +63,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setActionBarTitle("Picro | List");
         disableActionBar();
 
+        SpinKitView spins  = findViewById(R.id.spinKit);
+        spins.setVisibility(View.VISIBLE);
+
+        LinearLayout fund = findViewById(R.id.funds);
+        fund.setVisibility(View.INVISIBLE);
+
+        // set the setter
         controller.setResultHandler(this);
 
-        uid    = getShareData("UID");
-        serial = getShareData("SERIAL");
+        /** start get shared prefenences data **/
+        // dont touch this part!!
+        uid      = getShareData("UID");
+        serial   = getShareData("SERIAL");
         username = getShareData("UNAME");
+        /** end get shared prefenences data **/
 
-        text_amount = findViewById(R.id.amount);
-        protection_body = findViewById(R.id.protection_body);
-        protection_label = findViewById(R.id.protection_label);
-        text_username    = findViewById(R.id.greet);
-        String greeting = "Halo, " + username;
-        text_username.setText(greeting);
+        /** element initialization */
+        elementInit();
 
-        // init button
-        buttonInit();
-
-        // real time data set
-        //controller.getChildValueOneTime("picro_passengers/" + uid + "/username"); //get name
+        /** start get amount of user balance **/
         controller.getChildValueRealTime("picro_cards_manifest/" + serial + "/pica_amount");
+        /** end get amount of user balance **/
 
         // RV RECORD DATA
-        rvRecord = findViewById(R.id.rv_record);
-        rvRecord.setNestedScrollingEnabled(false);
-        list.addAll(ActivityData.getListData());
-        showRecyclerList();
+        //rvRecord = findViewById(R.id.rv_record);
+        //rvRecord.setNestedScrollingEnabled(false);
+        //list.addAll(ActivityData.getListData());
+        //showRecyclerList();
     }
 
     // SHOW RECYCLER LIST
     private void showRecyclerList() {
+    /*
         rvRecord.setLayoutManager(new LinearLayoutManager(this));
         DataAdaperList dataAdaperList = new DataAdaperList(list);
         rvRecord.setAdapter(dataAdaperList);
@@ -80,52 +105,131 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClicked(RecordData data) {
                 showSelectedItem(data);
             }
-        });
+        });*/
     }
 
-    // button init
-    private void buttonInit(){
-        // CIRCLE IMAGE VIEW
-        CircleImageView profile = findViewById(R.id.power_off);
-        profile.setOnClickListener(this);
 
-        // BUTTON BAYAR
+    // button init
+    private void elementInit(){
+
+        /** logout button **/
+        ImageView logout = findViewById(R.id.power_off);
+        logout.setOnClickListener(this);
+
+        /** button bayar **/
         LinearLayout button_bayar = findViewById(R.id.menu_bayar);
         button_bayar.setOnClickListener(this);
 
-        // BUTTON TOPUP
+        /** button topup **/
         LinearLayout button_topup = findViewById(R.id.menu_topup);
         button_topup.setOnClickListener(this);
 
-        // BUTTON TRANSFER
+        /** button transfer **/
         LinearLayout button_tranf = findViewById(R.id.menu_transfer);
         button_tranf.setOnClickListener(this);
 
-        // BUTTON HELP
+        /** button help **/
         LinearLayout button_helps = findViewById(R.id.menu_petunjuk);
         button_helps.setOnClickListener(this);
+
+        /** start text view and label declaration **/
+        text_amount      = findViewById(R.id.amount);
+        protection_body  = findViewById(R.id.protection_body);
+        protection_label = findViewById(R.id.protection_label);
+        text_username    = findViewById(R.id.greet);
+        String greeting  = "Halo, " + username;
+        text_username.setText(greeting);
+        /** end text view and label declaration **/
+
+        /** start recycler view identifier **/
+        rvRecord = findViewById(R.id.rv_record);
+        rvRecord.setNestedScrollingEnabled(false);
+        rvRecord.setLayoutManager(new LinearLayoutManager(this));
+
+        ref = databases.getReference("picro_payment/" + serial);
+
+        options = new FirebaseRecyclerOptions.Builder<PaymentRecord>().setQuery(ref, PaymentRecord.class).build();
+
+        adapters = new FirebaseRecyclerAdapter<PaymentRecord, FirebaseViewHolder>(options) {
+
+            @Override
+            protected void onBindViewHolder(FirebaseViewHolder holder, int i, PaymentRecord model) {
+                holder.id.setText(model.getId());
+                holder.to.setText(model.getTo());
+                holder.from.setText(model.getFrom());
+                holder.timestamp.setText(String.valueOf(model.getTimestamp()));
+
+                if(model.getType().equals("PAYMENT")){
+                    holder.amount.setText("- Rp. " + String.valueOf(DecimalFormater.goToDecimal(model.getAmount())));
+                    holder.amount.setTextColor(getResources().getColor(R.color.danger));
+                }
+
+                else if(model.getType().equals("TOPUP")){
+                    holder.amount.setText("+ Rp. " + String.valueOf(DecimalFormater.goToDecimal(model.getAmount())));
+                    holder.amount.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
+
+                holder.date_record.setText(model.getDaterecord());
+                holder.type.setText(model.getType());
+            }
+
+            @NonNull
+            @Override
+            public FirebaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_item_row,parent,false);
+                return new FirebaseViewHolder(view);
+            }
+        };
+
+        adapters.startListening();
+        rvRecord.setAdapter(adapters);
+        /** end recycler view identifier **/
     }
 
-    // SET ACTION BAR
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(adapters!=null){
+            adapters.startListening();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(adapters!=null){
+            adapters.stopListening();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adapters!=null){
+            adapters.startListening();
+        }
+    }
+
+    // set action bar
     private void setActionBarTitle(String title) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
     }
 
-    // SHOW SELECTED ITEM
+    /* show selected item
     private void showSelectedItem(RecordData record) {
         intentSettings = new Intent(MainActivity.this, DetailRecord.class);
         intentSettings.putExtra(DetailRecord.INDEX,record.getIndex());
         startActivity(intentSettings);
-    }
+    }*/
 
-    // DISABLE ACTION BAR
+    // disable action bar
     private void disableActionBar(){
         getSupportActionBar().hide();
     }
 
-    // MENU NAVIGATION
+    // menu navigation
     @Override
     public void onClick(View view) {
 
@@ -153,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // MENU TOPUP - ActivityTopUp
         else if(selector == R.id.menu_topup){
             intentSettings = new Intent(MainActivity.this, ActivityTopUp.class);
+            startActivity(intentSettings);
         }
 
         // MENU TRANSFER - ActivityTransfer
@@ -171,8 +276,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void setValueStatus(String path, int status) {}
 
+    /*--- start shared preferences ---*/
+
     @Override
     public void valueListener(String path, DataSnapshot data) {
+
         amount = Integer.parseInt(String.valueOf(data.getValue()));
         String fix_amount = "";
 
@@ -188,7 +296,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             protection_label.setText("Cash Protection tidak aktif");
         }
 
+        SpinKitView spins  = findViewById(R.id.spinKit);
+        spins.setVisibility(View.INVISIBLE);
+
+        LinearLayout fund = findViewById(R.id.funds);
+        fund.setVisibility(View.VISIBLE);
+
         text_amount.setText(fix_amount);
+
+
     }
 
     // GET SHARE DATA
@@ -196,5 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
         return shared.getString(selector, null);
     }
+
+    /*--- end shared preferences ---*/
 }
 

@@ -15,15 +15,21 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.picro.ActivityRegister;
 import com.example.picro.ActivitySplash;
+import com.example.picro.ActivityTopUp;
+import com.example.picro.MainActivity;
 import com.example.picro.R;
 import com.example.picro.activity_fragment.PaymentApproved;
 import com.example.picro.activity_fragment.PaymentQuantity;
+import com.example.picro.activity_fragment.TopUpStatus;
 import com.example.picro.data_controller.FirebaseController;
 import com.example.picro.data_model.PaymentQuantitySelector;
 import com.example.picro.feature_modul.PaymentModul;
+import com.example.picro.feature_modul.TopUpModul;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,13 +43,12 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-
 import java.util.ArrayList;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
-public class ActivityScanner extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler, FirebaseController.ResultHandler, PaymentModul.PaymentHandler{
+public class ActivityScanner extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler, FirebaseController.ResultHandler{
 
     private ArrayList<PaymentQuantitySelector> quantity;
     private PaymentQuantity quantityAdapter;
@@ -58,6 +63,7 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
     Intent intentSettings;
     int amount = 4000, index;
     TextView qr_label;
+    ConstraintLayout scannerBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +71,9 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_scanner);
 
         // handler
-        paymentModul.setPaymentHandler(this);
         firebaseController.setResultHandler(this);
+
+        scannerBody = findViewById(R.id.scanner_body);
 
         // bundling
         Bundle extras = getIntent().getExtras();
@@ -111,6 +118,11 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         else if(mode.equals("TRANSFER")){
         }
 
+        // scanner mode for topup
+        else if(mode.equals("TOPUP")){
+            amount = Integer.parseInt(String.valueOf(extras.getString("TOPUP_AMOUNT")));
+        }
+
         // view scanner init
         scannerView = (ZXingScannerView)findViewById(R.id.rxscan);
         getSupportActionBar().hide();
@@ -122,7 +134,6 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         // hide the progress bar
         progress = findViewById(R.id.progressBar);
         progress.setVisibility(View.INVISIBLE);
-
 
         // permission
         Dexter.withActivity(this)
@@ -136,7 +147,7 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(getApplicationContext(), "You must grant access",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Akses kamera kamu harus diaktifkan",Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -185,20 +196,64 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
                     else if(mode.equals("PAYMENT")){
 
                         if(dataSnaps.equals("PASSENGER")){
-                            Toast.makeText(getApplicationContext(), "Maaf, kode qr yang di scan salah :(", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Maaf, kode qr yang kamu scan salah :(", Toast.LENGTH_LONG).show();
                             back();
                         }
 
                         else if(dataSnaps.equals("DRIVER")){
-                            Toast.makeText(getApplicationContext(), "Memproses pembayaran, sabar yach :)", Toast.LENGTH_LONG).show();
+                            showSnack("Sedang memproses pembayaran kamu, sabar yah :)", 3000);
                             paymentModul.setUidFrom(getShareData("SERIAL"));
                             paymentModul.setUidTo(String.valueOf(result));
                             paymentModul.setQty(index);
                             paymentModul.payModul();
+                            paymentModul.setPaymentHandler(new PaymentModul.PaymentHandler() {
+                                @Override
+                                public void paymentStats(String status) {
+
+                                    // payment succeess
+                                    if(status.equals("SUCCESS")){
+                                        intentSettings = new Intent(ActivityScanner.this, PaymentApproved.class);
+                                        startActivity(intentSettings);
+                                        finish();
+                                    }
+
+                                    // payment failed - reason : not enough funds
+                                    else if(status.equals("NOT_ENOUGH_FUNDS")){
+                                        Toast.makeText(getApplicationContext(), "Saldo kamu enggak cukup, silahkan top up dulu ;)", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+
+                                }
+                            });
                         }
 
                     }
 
+                    else if(mode.equals("TOPUP")){
+
+                        if(dataSnaps.equals("PASSENGER")){
+                            Toast.makeText(getApplicationContext(), "Maaf, kode qr yang kamu scan salah :(", Toast.LENGTH_LONG).show();
+                            back();
+                        }
+
+                        else if(dataSnaps.equals("DRIVER")){
+                            showSnack("Sedang memproses top up kamu... :)", 3000);
+                            TopUpModul topuphandler = new TopUpModul();
+                            topuphandler.setTopUpFrom(String.valueOf(result));
+                            topuphandler.setTopUpTo(getShareData("UID"));
+                            topuphandler.setAmount(amount);
+                            topuphandler.topUp();
+                            topuphandler.setTopUpHandler(new TopUpModul.TopUpHandler() {
+                                @Override
+                                public void topUpStats(String status) {
+                                    intentSettings = new Intent(ActivityScanner.this, TopUpStatus.class);
+                                    startActivity(intentSettings);
+                                    finish();
+                                }
+                            });
+                        }
+
+                    }
                 }
 
             }
@@ -211,12 +266,6 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public void handleLogin(Result result){
-        uid = String.valueOf(result);                           // convert result to string
-        String temp_path = "picro_cards_manifest/" + uid;       // search for the card in cards_manifest
-        firebaseController.getChildValueOneTime(temp_path);     // trigger the firebase module by using the previous path
-    }
-
     @Override
     public void onClick(View view) {
 
@@ -225,21 +274,6 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         // back button action
         if(selector == R.id.backButton){
             back();
-        }
-
-    }
-
-    public void back(){
-
-        if(mode.equals("LOGIN")){
-            scannerView.stopCamera();
-            intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
-            startActivity(intentSettings);
-            finish();
-        }
-
-        else if(mode.equals("PAYMENT")){
-            finish();
         }
 
     }
@@ -284,17 +318,6 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    @Override
-    public void paymentStats(String status) {
-
-        if(status.equals("SUCCESS")){
-            intentSettings = new Intent(ActivityScanner.this, PaymentApproved.class);
-            startActivity(intentSettings);
-            finish();
-        }
-
-    }
-
     // set share data
     public void setShareData(String data){
         SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
@@ -303,10 +326,42 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
         editor.commit();
     }
 
+    public void showSnack(String msg, int duration){
+        Snackbar snackbar = Snackbar.make(scannerBody, msg, Snackbar.LENGTH_LONG).setDuration(duration);
+        snackbar.show();
+    }
+
+    public void handleLogin(Result result){
+        uid = String.valueOf(result);                           // convert result to string
+        String temp_path = "picro_cards_manifest/" + uid;       // search for the card in cards_manifest
+        firebaseController.getChildValueOneTime(temp_path);     // trigger the firebase module by using the previous path
+    }
+
     // get share data
     public String getShareData(String selector){
         SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
         return shared.getString(selector, null);
+    }
+
+    public void back(){
+
+        if(mode.equals("LOGIN")){
+            scannerView.stopCamera();
+            intentSettings = new Intent(ActivityScanner.this, ActivitySplash.class);
+            startActivity(intentSettings);
+            finish();
+        }
+
+        else if(mode.equals("PAYMENT")){
+            finish();
+        }
+
+        else if(mode.equals("TOPUP")){
+            intentSettings = new Intent(ActivityScanner.this, ActivityTopUp.class);
+            startActivity(intentSettings);
+            finish();
+        };
+
     }
 
 }

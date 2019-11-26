@@ -35,16 +35,16 @@ public class PaymentModul {
     // payment modul constructor
     public PaymentModul(){ }
 
-    // interface setter
-    public void setPaymentHandler(PaymentHandler paymentHandler) {
-        this.paymentHandler = paymentHandler;
-    }
-
     // payment modul constructor
     public PaymentModul(String uidFrom, String uidTo, int amount){
         this.uidFrom = uidFrom;
         this.uidTo = uidTo;
         this.amount = amount;
+    }
+
+    // interface setter
+    public void setPaymentHandler(PaymentHandler paymentHandler) {
+        this.paymentHandler = paymentHandler;
     }
 
     // pay modul
@@ -53,6 +53,7 @@ public class PaymentModul {
         // check for the picro amount funds
         DatabaseReference amountCheck = database.getReference("picro_settings/picro_amount");
         amountCheck.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 amount = Integer.parseInt(String.valueOf(dataSnapshot.getValue())) * qty;
@@ -81,9 +82,13 @@ public class PaymentModul {
                 int userFunds = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
 
                 // user funds enough
-                if(userFunds > 0){
+                if(userFunds >= amount){
                     userFunds = userFunds - amount;
                     makePayment(userFunds);
+                }
+
+                else{
+                    paymentHandler.paymentStats("NOT_ENOUGH_FUNDS");
                 }
 
             }
@@ -157,6 +162,7 @@ public class PaymentModul {
         recordModel.setType("PAYMENT");
         recordModel.setTimestamp(IdFormatter.timestamp());
         recordModel.setDaterecord(IdFormatter.getDate());
+        recordModel.setId(IdFormatter.paymentId());
 
         // record the payment
         DatabaseReference record = database.getReference("picro_payment/" + uidFrom + "/" + IdFormatter.paymentId());

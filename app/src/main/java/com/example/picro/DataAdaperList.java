@@ -34,9 +34,8 @@ public class DataAdaperList extends RecyclerView.Adapter<DataAdaperList.ListView
 
     @Override
     public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
-
+    /*
         RecordData record = listData.get(position);
-
         Glide.with(holder.itemView.getContext())
                 .load(record.getImage())
                 .apply(new RequestOptions().override(55, 55))
@@ -50,7 +49,8 @@ public class DataAdaperList extends RecyclerView.Adapter<DataAdaperList.ListView
             public void onClick(View v) {
                 onItemClickCallback.onItemClicked(listData.get(holder.getAdapterPosition()));
             }
-        });
+        });*/
+
     }
 
     @Override
@@ -64,9 +64,9 @@ public class DataAdaperList extends RecyclerView.Adapter<DataAdaperList.ListView
 
         ListViewHolder(View itemView) {
             super(itemView);
-            imgPhoto = itemView.findViewById(R.id.img_item_photo);
-            tvName   = itemView.findViewById(R.id.tv_item_name);
-            tvDetail = itemView.findViewById(R.id.tv_item_detail);
+            /*imgPhoto = itemView.findViewById(R.id.tv_id);
+            tvName   = itemView.findViewById(R.id.tv_amount);
+            tvDetail = itemView.findViewById(R.id.tv_item_detail);*/
         }
     }
 

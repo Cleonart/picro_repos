@@ -27,6 +27,7 @@ public class ActivityAuth extends AppCompatActivity implements FirebaseControlle
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_input);
 

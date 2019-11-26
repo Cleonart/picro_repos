@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <!-- HEADER -->
     <LinearLayout
         android:id="@+id/heading"
@@ -43,6 +45,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/help_topup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BANTUAN"
+        android:textColor="#FFF"
+        android:fontFamily="@font/productsansbold"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:textSize="13sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp"/>
 
     <!-- INPUT TEXT LABEL -->
     <TextView

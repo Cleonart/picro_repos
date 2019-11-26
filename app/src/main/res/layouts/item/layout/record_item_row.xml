@@ -1,43 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="16dp">
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_item_photo"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        tools:src="@android:color/darker_gray" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/img_item_photo"
-        android:layout_toRightOf="@id/img_item_photo"
-        android:orientation="vertical">
+    android:padding="18dp"
+    android:background="@drawable/rounded_menu_gray"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
+    android:layout_marginTop="6dp">
 
         <TextView
-            android:id="@+id/tv_item_name"
+            android:textColor="#000"
+            android:fontFamily="@font/productsansbold"
+            android:id="@+id/tv_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textSize="16sp"
+            android:layout_marginBottom="20dp"
+            android:textSize="15sp"
             android:textStyle="bold"
-            tools:text="@string/record_id" />
+            tools:text="PAYMENT20190101021"
+            android:layout_marginLeft="10px"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_item_detail"
+            android:layout_marginLeft="10px"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/productsansbold"
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp. 20.000"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:textColor="#000"
+            android:layout_marginLeft="10px"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            tools:text="@string/record_detail" />
-    </LinearLayout>
+            tools:text="PEMBAYARAN"
+            app:layout_constraintTop_toBottomOf="@id/tv_id"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
-</RelativeLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_to"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_from"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_type"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_timestamp"/>
+
+        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

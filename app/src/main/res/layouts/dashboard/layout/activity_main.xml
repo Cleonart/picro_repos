@@ -70,7 +70,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- MENU TOP -->
+        <!-- menu top -->
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,6 +85,19 @@
                 android:elevation="10dp"
                 android:clipToPadding="false"
                 android:paddingBottom="25dp">
+
+            <!-- progress bar -->
+            <com.github.ybq.android.spinkit.SpinKitView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/spinKit"
+                app:SpinKit_Color="#f6f7f9"
+                style="@style/SpinKitView.Small.FadingCircle"
+                />
 
             <!-- PICRO PAY LOGO -->
             <LinearLayout
@@ -168,7 +181,7 @@
                     android:layout_height="30dp"
                     android:layout_marginBottom="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_credit_card"
+                    android:src="@drawable/ic_qrcode"
                     android:contentDescription="Credit Card"
                     />
 
@@ -322,9 +335,9 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Riwayat Pemesanan"
+                android:text="Riwayat Transaksi"
                 android:textStyle="bold"
-                android:textSize="24dp"
+                android:textSize="22dp"
                 android:textColor="#000"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="20dp"
@@ -348,7 +361,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/record_item_row"
-                android:visibility="invisible"/>
+                />
 
         </LinearLayout>
 
