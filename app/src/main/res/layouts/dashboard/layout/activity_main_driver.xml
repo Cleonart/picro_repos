@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    tools:context=".interface_driver.MainActivityDriver">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <!-- CIRCLE IMAGE -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/power_off_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_power_off"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_centerVertical="true"
+        />
+
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:id="@+id/heading_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="25dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selamat Bekerja"
+            android:fontFamily="@font/productsansbold"
+            android:textSize="25sp"
+            android:textColor="#000"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kelola pendapatan anda"
+            android:fontFamily="@font/productsans"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+    <!-- PICRO PAY LOGO -->
+    <LinearLayout
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/heading_title">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_wallet_primary"
+            android:layout_marginRight="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_gravity="center"
+            android:contentDescription="wallet"
+            android:layout_marginTop="3dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/picropay"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:fontFamily="@font/productsansbold"/>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/wallet"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/logo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <!-- MENU BAYAR -->
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_top_menu"
+            android:id="@+id/digital_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.49"
+            android:background="@drawable/rounded_menu"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_marginTop="17dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="DOMPET"
+                android:fontFamily="@font/productsansbold"
+                android:textColor="#FFF"/>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/wallet_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:fontFamily="@font/productsans"
+                android:textSize="17sp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="18dp"/>
+
+            <!-- progress bar -->
+            <com.github.ybq.android.spinkit.SpinKitView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="-35dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/spinKit"
+                app:SpinKit_Color="#f6f7f9"
+                style="@style/SpinKitView.Small.FadingCircle"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/separator"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toRightOf="@id/digital_money"
+            app:layout_constraintWidth_percent="0.02"/>
+
+        <!-- MENU BAYAR -->
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_top_menu"
+            android:id="@+id/real_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/separator"
+            app:layout_constraintWidth_percent="0.49"
+            android:background="@drawable/rounded_menu_green"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_marginTop="17dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TUNAI"
+                android:textSize="13sp"
+                android:fontFamily="@font/productsansbold"
+                android:textColor="#FFF"/>
+
+            <TextView
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:id="@+id/cash_amount"
+                android:fontFamily="@font/productsans"
+                android:textSize="17sp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="18dp"/>
+
+            <!-- progress bar -->
+            <com.github.ybq.android.spinkit.SpinKitView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="-35dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/spinKit_2"
+                app:SpinKit_Color="#f6f7f9"
+                style="@style/SpinKitView.Small.FadingCircle"
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:background="#bdc3c7"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/wallet"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:alpha="0.4"
+        android:id="@+id/line_between"/>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/line_between"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DAFTAR TOPUP"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textColor="#95a5a6"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/productsansbold"
+            />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@+id/line_between"
+        android:layout_marginTop="50dp"
+        android:id="@+id/rv_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/record_item_row"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

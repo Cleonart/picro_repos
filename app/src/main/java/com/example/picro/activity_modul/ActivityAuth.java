@@ -13,12 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.picro.MainActivity;
 import com.example.picro.R;
 import com.example.picro.data_controller.FirebaseController;
+import com.example.picro.interface_driver.MainActivityDriver;
 import com.google.firebase.database.DataSnapshot;
 
 public class ActivityAuth extends AppCompatActivity implements FirebaseController.ResultHandler{
 
     FirebaseController controller = new FirebaseController();
-    String uid, serial;
+    String uid, serial, user_type, path_global;
     int auth_code;
     EditText auth_input;
     String mode = "LOGIN";
@@ -41,6 +42,7 @@ public class ActivityAuth extends AppCompatActivity implements FirebaseControlle
         Bundle extras = getIntent().getExtras();
         uid    = extras.getString("UID");
         serial = extras.getString("SERIAL");
+        user_type = extras.getString("USER_TYPE");
 
         // element init
         auth_input = findViewById(R.id.auth_input);
@@ -66,7 +68,17 @@ public class ActivityAuth extends AppCompatActivity implements FirebaseControlle
                 // validated success
                 else{
                     progress.setVisibility(View.VISIBLE);
-                    controller.getChildValueOneTime("picro_passengers/" + uid);
+
+                    if(user_type.equals("PASSENGER")){
+                        path_global = "picro_passengers/" + uid;
+                    }
+
+                    else if(user_type.equals("DRIVER")){
+                        path_global = "picro_driver/" + uid;
+                    }
+
+                    controller.getChildValueOneTime(path_global);
+
                 }
 
             }
@@ -81,15 +93,23 @@ public class ActivityAuth extends AppCompatActivity implements FirebaseControlle
     public void valueListener(String path, DataSnapshot data) {
 
         // auth login - step 1
-        if(mode.equals("LOGIN") && path.equals("picro_passengers/" + uid)){
+        if(mode.equals("LOGIN") && path.equals(path_global)){
 
             int auth_from_database = Integer.parseInt(String.valueOf(data.child("auth_code").getValue()));
 
             // login credential authorized
             if(auth_from_database == auth_code){
-                intentSettings = new Intent(ActivityAuth.this, MainActivity.class);
+
+                if(user_type.equals("PASSENGER")){
+                    intentSettings = new Intent(ActivityAuth.this, MainActivity.class);
+                }
+
+                else if(user_type.equals("DRIVER")){
+                    intentSettings = new Intent(ActivityAuth.this, MainActivityDriver.class);
+                }
+
                 controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
-                controller.getChildValueOneTime("picro_passengers/" + uid + "/username");
+                controller.getChildValueOneTime(path_global + "/username");
                 mode = "SET_USERNAME";
             }
 
@@ -103,13 +123,14 @@ public class ActivityAuth extends AppCompatActivity implements FirebaseControlle
         }
 
         // set the username preferences - step 2
-        else if(mode.equals("SET_USERNAME") && path.equals("picro_passengers/" + uid + "/username")){
+        else if(mode.equals("SET_USERNAME") && path.equals(path_global + "/username")){
             SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = shared.edit();
             editor.putString("UNAME", String.valueOf(data.getValue()));
             editor.putString("UID", uid);
             editor.putString("SERIAL", serial);
             editor.putString("auth_code", uid + serial);
+            editor.putString("USER_TYPE", user_type);
             editor.commit();
             startActivity(intentSettings);
             finish();

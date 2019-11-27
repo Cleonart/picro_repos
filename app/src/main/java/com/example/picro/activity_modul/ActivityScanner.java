@@ -19,8 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.picro.ActivityRegister;
 import com.example.picro.ActivitySplash;
-import com.example.picro.ActivityTopUp;
-import com.example.picro.MainActivity;
+import com.example.picro.interface_passenger.ActivityTopUp;
 import com.example.picro.R;
 import com.example.picro.activity_fragment.PaymentApproved;
 import com.example.picro.activity_fragment.PaymentQuantity;
@@ -290,28 +289,62 @@ public class ActivityScanner extends AppCompatActivity implements View.OnClickLi
 
             int card_stats = Integer.parseInt(String.valueOf(data.child("pica_stats").getValue()));
             String card_uid = String.valueOf(data.child("pica_uid").getValue());
+            String card_type = String.valueOf(data.child("pica_type").getValue());
 
-            // go to register pagehy
-            if (card_stats == 0) {
-                Toast.makeText(getApplicationContext(), "Kartu masih tersedia, silahkan mendaftar", Toast.LENGTH_LONG).show();
-                intentSettings = new Intent(ActivityScanner.this, ActivityRegister.class);
-                Bundle extras = new Bundle();
-                extras.putString("SERIAL", uid);
-                extras.putString("UID", card_uid);
-                intentSettings.putExtras(extras);
-                startActivity(intentSettings);
-                finish();
+            if(card_type.equals("DRIVER")){
+
+                // go to register page
+                if (card_stats == 0) {
+                    Toast.makeText(getApplicationContext(), "Kartu masih tersedia, silahkan mendaftar", Toast.LENGTH_LONG).show();
+                    intentSettings = new Intent(ActivityScanner.this, ActivityRegister.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("USER_TYPE", "DRIVER");
+                    extras.putString("SERIAL", card_uid);
+                    extras.putString("UID", card_uid);
+                    intentSettings.putExtras(extras);
+                    startActivity(intentSettings);
+                    finish();
+                }
+
+                // 6 digit code input
+                else if (card_stats == 1) {
+                    intentSettings = new Intent(ActivityScanner.this, ActivityAuth.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("USER_TYPE", "DRIVER");
+                    extras.putString("SERIAL", card_uid);
+                    extras.putString("UID", card_uid);
+                    intentSettings.putExtras(extras);
+                    startActivity(intentSettings);
+                    finish();
+                }
             }
 
-            // 6 digit code input
-            else if (card_stats == 1) {
-                intentSettings = new Intent(ActivityScanner.this, ActivityAuth.class);
-                Bundle extras = new Bundle();
-                extras.putString("SERIAL", uid);
-                extras.putString("UID", card_uid);
-                intentSettings.putExtras(extras);
-                startActivity(intentSettings);
-                finish();
+            else if(card_type.equals("PASSENGER")){
+
+                // go to register page
+                if (card_stats == 0) {
+                    Toast.makeText(getApplicationContext(), "Kartu masih tersedia, silahkan mendaftar", Toast.LENGTH_LONG).show();
+                    intentSettings = new Intent(ActivityScanner.this, ActivityRegister.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("SERIAL", uid);
+                    extras.putString("UID", card_uid);
+                    extras.putString("USER_TYPE", "PASSENGER");
+                    intentSettings.putExtras(extras);
+                    startActivity(intentSettings);
+                    finish();
+                }
+
+                // 6 digit code input
+                else if (card_stats == 1) {
+                    intentSettings = new Intent(ActivityScanner.this, ActivityAuth.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("SERIAL", uid);
+                    extras.putString("UID", card_uid);
+                    extras.putString("USER_TYPE", "PASSENGER");
+                    intentSettings.putExtras(extras);
+                    startActivity(intentSettings);
+                    finish();
+                }
             }
 
         }

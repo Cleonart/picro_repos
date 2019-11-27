@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.picro.data_controller.FirebaseController;
 import com.example.picro.data_model.MemberData;
+import com.example.picro.interface_driver.MainActivityDriver;
 import com.google.firebase.database.DataSnapshot;
 
 public class ActivityRegister extends AppCompatActivity implements FirebaseController.ResultHandler{
@@ -28,7 +29,7 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
     FirebaseController controller = new FirebaseController();
     Intent intentSettings;
     String pathGlobal;
-    private String uid, serial;
+    private String uid, serial, user_type;
     String text_username, text_auth, text_auth_again;
 
     @Override
@@ -40,8 +41,13 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
         controller.setResultHandler(this);
 
         Bundle extras = getIntent().getExtras();
-        uid    = extras.getString("UID");
-        serial = extras.getString("SERIAL");
+        uid       = extras.getString("UID");
+        user_type = extras.getString("USER_TYPE");
+        serial    = extras.getString("UID");
+
+        if(user_type.equals("PASSENGER")){
+            serial = extras.getString("SERIAL");
+        }
 
         progress = findViewById(R.id.progressbar);
         progress.setVisibility(View.INVISIBLE);
@@ -132,7 +138,13 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
                             member.setPica_uid(uid);
 
                             // path inside database
-                            pathGlobal = "picro_passengers/" + uid;
+                            if(user_type.equals("PASSENGER")){
+                                pathGlobal = "picro_passengers/" + uid;
+                            }
+
+                            else if(user_type.equals("DRIVER")){
+                                pathGlobal = "picro_driver/" + uid;
+                            }
 
                             // send request data to server
                             controller.insertValueObject(pathGlobal, member);
@@ -155,17 +167,30 @@ public class ActivityRegister extends AppCompatActivity implements FirebaseContr
         if(path.equals(pathGlobal)){
 
             if (status == 1) {
-                status = 0;
-                controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
-                intentSettings = new Intent(ActivityRegister.this, MainActivity.class);
-                Toast.makeText(getApplicationContext(), "Selamat datang", Toast.LENGTH_LONG).show();
+
+                // shared preferences
                 SharedPreferences shared = getSharedPreferences("rootUser", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = shared.edit();
                 editor.putString("UNAME", text_username);
                 editor.putString("UID", uid);
                 editor.putString("SERIAL", serial);
                 editor.putString("auth_code", String.valueOf(uid) + String.valueOf(serial));
+                editor.putString("USER_TYPE", user_type);
                 editor.commit();
+
+                status = 0;
+
+                // set the value
+                controller.setValue("picro_cards_manifest/" + serial + "/pica_stats", "1");
+
+                if(user_type.equals("PASSENGER")){
+                    intentSettings = new Intent(ActivityRegister.this, MainActivity.class);
+                }
+
+                else if(user_type.equals("DRIVER")){
+                    intentSettings = new Intent(ActivityRegister.this, MainActivityDriver.class);
+                }
+
                 startActivity(intentSettings);
                 finish();
             }

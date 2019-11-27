@@ -1,6 +1,5 @@
-package com.example.picro;
+package com.example.picro.interface_passenger;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,18 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.picro.ActivityHelp;
+import com.example.picro.R;
 import com.example.picro.activity_fragment.TopUpStatus;
 import com.example.picro.activity_modul.ActivityScanner;
 import com.example.picro.data_controller.DecimalFormater;
 import com.example.picro.data_controller.IdFormatter;
-import com.example.picro.feature_modul.TopUpModul;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.DecimalFormat;
 
 import me.abhinay.input.CurrencyEditText;
 
@@ -158,26 +156,25 @@ public class ActivityTopUp extends AppCompatActivity implements View.OnClickList
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
-                if(String.valueOf(dataSnapshot.child("timestamp").getValue()).equals("null")){                                  // --------------------------------------------------
-                    //Toast.makeText(getApplicationContext(), "Silahkan melakukan top up", Toast.LENGTH_LONG).show();           // trigger this function if there's no top up request
-                }                                                                                                               // --------------------------------------------------
+                if(String.valueOf(dataSnapshot.child("timestamp").getValue()).equals("null")){                                               // --------------------------------------------------
+                    //Toast.makeText(getApplicationContext(), "Silahkan melakukan top up", Toast.LENGTH_LONG).show();                        // trigger this function if there's no top up request
+                }                                                                                                                            // --------------------------------------------------
 
                 else{
 
-                    String datenow  = IdFormatter.getDate();                                                                     // get the date from --app--
-                    String fromdate = String.valueOf(dataSnapshot.child("daterecord").getValue());                               // get the record from **server**
+                    String datenow  = IdFormatter.getDate();                                                                                 // get the date from --app--
+                    String fromdate = String.valueOf(dataSnapshot.child("daterecord").getValue());                                           // get the record from **server**
 
-                    int now      = IdFormatter.timestamp();                                                                      // get the stamp from --app--
-                    int fromuid  = Integer.parseInt(String.valueOf(dataSnapshot.child("timestamp").getValue()));                 // get the time stamp from **server**
-                    String amount = DecimalFormater.goToDecimal(Integer.parseInt(String.valueOf(dataSnapshot.child("amount").getValue()))); // get the user top up amount
+                    int now      = IdFormatter.timestamp();                                                                                  // get the stamp from --app--
+                    int fromuid  = Integer.parseInt(String.valueOf(dataSnapshot.child("timestamp").getValue()));                             // get the time stamp from **server**
+                    String amount = DecimalFormater.goToDecimal(Integer.parseInt(String.valueOf(dataSnapshot.child("amount").getValue())));  // get the user top up amount
 
-                    int latency = IdFormatter.timestampDifference(now, fromuid);                                                // calculate the time difference in minutes
-                    int raw     = IdFormatter.timestampraw(now, fromuid);                                                       // calculate the time difference in seconds
+                    int latency = IdFormatter.timestampDifference(now, fromuid);                                                             // calculate the time difference in minutes
+                    int raw     = IdFormatter.timestampraw(now, fromuid);                                                                    // calculate the time difference in seconds
 
                     Float rawLatency = (float) (now - fromuid) / 60;                                                            //
 
-                    //Toast.makeText(getApplicationContext(),String.format("%.2f", rawLatency), Toast.LENGTH_LONG).show();      // for debugging purpose
+                    //Toast.makeText(getApplicationContext(),String.format("%.2f", rawLatency), Toast.LENGTH_LONG).show();                   // for debugging purpose
 
                     // datenow
                     if(datenow.equals(fromdate) && latency <= 30){

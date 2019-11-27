@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.picro.interface_driver.MainActivityDriver;
+
 public class ActivityStart extends AppCompatActivity {
 
     Intent intentSettings;
@@ -20,15 +22,19 @@ public class ActivityStart extends AppCompatActivity {
 
         // if auth code is not authenticated
         if(getShareData("auth_code" ) == null || getShareData("auth_code") == "" ){
-            //Toast.makeText(getApplicationContext(), "Logging you in",Toast.LENGTH_LONG).show();
             intentSettings = new Intent(ActivityStart.this, ActivitySplash.class);
         }
 
         // if code is authenticated
         else{
-            //Toast.makeText(getApplicationContext(), "Selamat datang kembali",Toast.LENGTH_LONG).show();
-            //Toast.makeText(getApplicationContext(), getShareData("auth_code"),Toast.LENGTH_LONG).show();
-            intentSettings = new Intent(ActivityStart.this, MainActivity.class);
+
+            if (getShareData("USER_TYPE").equals("DRIVER")){
+                intentSettings = new Intent(ActivityStart.this, MainActivityDriver.class);
+            }
+
+            else if(getShareData("USER_TYPE").equals("PASSENGER")){
+                intentSettings = new Intent(ActivityStart.this, MainActivity.class);
+            }
         }
 
         startActivity(intentSettings);

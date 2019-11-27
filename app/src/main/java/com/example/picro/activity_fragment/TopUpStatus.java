@@ -30,12 +30,12 @@ public class TopUpStatus extends AppCompatActivity {
         Bundle extras    = getIntent().getExtras();
         float time_raw   = Float.parseFloat(String.valueOf(extras.getString("TIME_RAW")));
         String amount    = extras.getString("AMOUNT");
-        minutes_          = (int) time_raw;
+        minutes_         = (int) time_raw;
 
         // convert data time raw
         time_raw = ((time_raw - minutes_) * 0.6f) * 60000; // get the seconds
         seconds_  = (int) time_raw;
-        minutes_  = (30 - minutes_) * 60000;               // get the minutes
+        minutes_  = (29 - minutes_) * 60000;               // get the minutes
 
         timeLeftInMilliseconds = minutes_ + seconds_;
 
@@ -79,7 +79,6 @@ public class TopUpStatus extends AppCompatActivity {
 
                 time_left += seconds;
                 data.setText(time_left);
-
                 data.setText(String.valueOf(time_left));
             }
 
@@ -90,17 +89,6 @@ public class TopUpStatus extends AppCompatActivity {
         };
 
         countDownTimer.start();
-
-    }
-
-    public void startCount(){
-
-
-
-    }
-
-    public void updateTimer(){
-
 
     }
 }

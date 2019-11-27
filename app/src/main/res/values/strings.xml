@@ -15,6 +15,8 @@
     <string name="ap_button_start">AKTIFKAN PICA</string>
     <string name="ap_button_end">NONAKTIFKAN PICA</string>
 
+    <!-- string template -->
+    <string name="currecy">Rp. </string>
 
     <!-- STRING UNTUK activity_topup -->
     <string name="rp_9000">Rp 9,000</string>

@@ -71,9 +71,10 @@
 
             <TextView
                 android:id="@+id/sub_status"
+                android:fontFamily="@font/productsans"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:lineSpacingExtra="2sp"
+                android:lineSpacingExtra="4sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Silahkan selesaikan pembayaran anda sebelum waktu yang telah ditentukan"

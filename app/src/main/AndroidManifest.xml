@@ -34,7 +34,13 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".DetailRecord"/>
         <activity android:name=".ActivityAbout"/>
-        <activity android:name=".ActivityTopUp"/>
+
+        <!-- passenger activity -->
+        <activity android:name=".interface_passenger.ActivityTopUp"/>
+
+        <!-- driver activity -->
+        <activity android:name=".interface_driver.MainActivityDriver"/>
+        <activity android:name=".interface_driver.TopUpVerify"/>
 
         <!-- reusable -->
         <activity android:name=".activity_modul.ActivityScanner"/>

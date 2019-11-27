@@ -326,35 +326,34 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:background="#bdc3c7"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:alpha="0.4"
+            android:id="@+id/line_between"/>
+
         <!-- HISTORY DATA -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <TextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Riwayat Transaksi"
+                android:text="RIWAYAT TRANSAKSI"
                 android:textStyle="bold"
-                android:textSize="22dp"
-                android:textColor="#000"
-                android:layout_marginBottom="16dp"
+                android:textSize="13sp"
+                android:textColor="#95a5a6"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/productsansbold"
                 />
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:background="#bcbec0"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_record"

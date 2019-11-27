@@ -13,30 +13,25 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.picro.activity_modul.ActivityScanner;
 import com.example.picro.data_controller.DecimalFormater;
 import com.example.picro.data_controller.FirebaseController;
 import com.example.picro.data_controller.FirebaseViewHolder;
 import com.example.picro.data_model.PaymentRecord;
+import com.example.picro.interface_passenger.ActivityTopUp;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, FirebaseController.ResultHandler{
 
@@ -108,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });*/
     }
 
-
     // button init
     private void elementInit(){
 
@@ -154,17 +148,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected void onBindViewHolder(FirebaseViewHolder holder, int i, PaymentRecord model) {
-                holder.id.setText(model.getId());
+
                 holder.to.setText(model.getTo());
                 holder.from.setText(model.getFrom());
                 holder.timestamp.setText(String.valueOf(model.getTimestamp()));
 
                 if(model.getType().equals("PAYMENT")){
+                    holder.id.setText("Bayar Mikrolet");
                     holder.amount.setText("- Rp. " + String.valueOf(DecimalFormater.goToDecimal(model.getAmount())));
                     holder.amount.setTextColor(getResources().getColor(R.color.danger));
                 }
 
                 else if(model.getType().equals("TOPUP")){
+                    holder.id.setText("Top Up Saldo");
                     holder.amount.setText("+ Rp. " + String.valueOf(DecimalFormater.goToDecimal(model.getAmount())));
                     holder.amount.setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
