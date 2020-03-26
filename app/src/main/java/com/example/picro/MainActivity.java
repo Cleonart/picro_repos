@@ -259,13 +259,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // MENU TRANSFER - ActivityTransfer
         else if(selector == R.id.menu_transfer){
             intentSettings = new Intent(MainActivity.this, ActivityTransfer.class);
+            startActivity(intentSettings);
         }
 
         // MENU HELP - ActivityHelp
         else if(selector == R.id.menu_petunjuk) {
             intentSettings = new Intent(MainActivity.this, ActivityHelp.class);
+            startActivity(intentSettings);
         }
-
 
     }
 
@@ -299,7 +300,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fund.setVisibility(View.VISIBLE);
 
         text_amount.setText(fix_amount);
-
 
     }
 

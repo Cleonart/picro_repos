@@ -228,6 +228,7 @@
 
             <!-- MENU TRANSFER -->
             <LinearLayout
+                android:visibility="invisible"
                 android:layout_marginTop="@dimen/margin_top_menu"
                 android:id="@+id/menu_transfer"
                 android:layout_width="0dp"
@@ -291,6 +292,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/protection_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

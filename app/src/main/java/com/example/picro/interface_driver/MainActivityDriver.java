@@ -85,7 +85,7 @@ public class MainActivityDriver extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int amount_fix = Integer.parseInt(String.valueOf(dataSnapshot.child("amount").getValue()));          // get the digital wallet amount
                 int cash       = Integer.parseInt(String.valueOf(dataSnapshot.child("cash").getValue()));            // get the cash amount
-                amount_fix     = amount_fix - cash;                                                       // to get the exact amount of digital wallet
+                amount_fix     = amount_fix;                                                       // to get the exact amount of digital wallet
                                                                                                           // we need to substract amount_fix with cash
                 if(amount_fix <= 0){
                     amount_fix = 0;                                                                       // if the substraction result return negative we need to set it to 0
@@ -175,9 +175,11 @@ public class MainActivityDriver extends AppCompatActivity {
                                     public void onClick(View view) {
                                         intentSettings = new Intent(MainActivityDriver.this, TopUpVerify.class);
                                         Bundle extras = new Bundle();
-                                        extras.putString("PAYMENT_ID", model.getTo());
+                                        extras.putString("PAYMENT_ID", model.getId());
+                                        extras.putString("ID_USER" , model.getTo());
                                         extras.putString("USERNAME", String.valueOf(dataSnapshot.getValue()));
                                         extras.putString("AMOUNT", String.valueOf(model.getAmount()));
+                                        extras.putString("SERIAL", String.valueOf(serial));
                                         intentSettings.putExtras(extras);
                                         startActivity(intentSettings);
                                     }

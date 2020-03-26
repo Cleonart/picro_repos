@@ -11,6 +11,12 @@ public class IdFormatter {
         return data;
     }
 
+    public static String topUp() {
+        SimpleDateFormat sf = new SimpleDateFormat("ddMMyyyHHmmss");
+        String data = "TOPUP" + String.valueOf(sf.format(new Date()));
+        return data;
+    }
+
     public static String topUpId(){
         SimpleDateFormat sf = new SimpleDateFormat("ddMMyyyHHmmss");
         String data = "TOPUP_TEMPOR" + String.valueOf(sf.format(new Date()));
